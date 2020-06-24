@@ -1,0 +1,3 @@
+include ':MuslimData'
+include ':app'
+rootProject.name = "Muslim Data Example"
