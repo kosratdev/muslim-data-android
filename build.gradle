@@ -24,3 +24,8 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+// Dependency versions.
+ext {
+    room_version = "2.2.5"
+}
