@@ -2,16 +2,16 @@ package com.kosratahmed.muslimdata.database
 
 import android.content.Context
 import androidx.room.*
-import com.kosratahmed.muslimdata.models.PrayerTimes
+import com.kosratahmed.muslimdata.models.PrayerTime
 
 @Dao
 interface MuslimDataDao {
 
-    @Query("SELECT * FROM prayer_times WHERE city = :city")
-    fun getPrayerTimes(city: String): List<PrayerTimes>
+    @Query("SELECT * FROM prayer_time WHERE city = :city")
+    fun getPrayerTimes(city: String): List<PrayerTime>
 }
 
-@Database(entities = [PrayerTimes::class], version = 1)
+@Database(entities = [PrayerTime::class], version = 1)
 abstract class MuslimDataDatabase : RoomDatabase() {
     abstract val muslimDataDao: MuslimDataDao
 
