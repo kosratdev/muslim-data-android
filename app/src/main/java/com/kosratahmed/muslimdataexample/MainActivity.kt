@@ -14,8 +14,17 @@ class MainActivity : AppCompatActivity() {
 
 
         lifecycleScope.launch {
-            val result = Repository(this@MainActivity).getPrayerTimes("Erbil")
-            Log.i("result", "$result")
+            val search = Repository(this@MainActivity).searchCity("erb")
+            Log.i("search", "$search")
+
+            val geoCoder = Repository(this@MainActivity).geoCoder("iq","erbil")
+            Log.i("geoCoder", "$geoCoder")
+
+            val geoCoderLocation = Repository(this@MainActivity).geoCoder(36.0901, 43.0930)
+            Log.i("geoCoderLocation", "$geoCoderLocation")
+
+            val prayerTime = Repository(this@MainActivity).getPrayerTimes("Erbil")
+            Log.i("Prayer times ", "$prayerTime")
         }
     }
 }
