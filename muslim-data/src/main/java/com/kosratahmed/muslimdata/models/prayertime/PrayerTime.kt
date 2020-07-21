@@ -1,4 +1,4 @@
-package com.kosratahmed.muslimdata.models
+package com.kosratahmed.muslimdata.models.prayertime
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

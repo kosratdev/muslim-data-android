@@ -5,7 +5,7 @@ import androidx.room.*
 import com.kosratahmed.muslimdata.models.City
 import com.kosratahmed.muslimdata.models.Country
 import com.kosratahmed.muslimdata.models.CountryAndCity
-import com.kosratahmed.muslimdata.models.PrayerTime
+import com.kosratahmed.muslimdata.models.prayertime.PrayerTime
 
 @Dao
 interface MuslimDataDao {
