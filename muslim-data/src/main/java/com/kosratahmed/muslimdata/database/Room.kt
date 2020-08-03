@@ -5,7 +5,7 @@ import androidx.room.*
 import com.kosratahmed.muslimdata.models.City
 import com.kosratahmed.muslimdata.models.Country
 import com.kosratahmed.muslimdata.models.CountryAndCity
-import com.kosratahmed.muslimdata.models.prayertime.PrayerTime
+import com.kosratahmed.muslimdata.models.prayertime.FixedPrayerTime
 
 @Dao
 interface MuslimDataDao {
@@ -22,11 +22,11 @@ interface MuslimDataDao {
     @Query("SELECT * FROM city ORDER BY abs(latitude - :latitude) + abs(longitude - :longitude) LIMIT 1")
     fun geoCoder(latitude: Double, longitude: Double): CountryAndCity
 
-    @Query("SELECT * FROM prayer_time WHERE city = :city")
-    fun getPrayerTimes(city: String): List<PrayerTime>
+    @Query("SELECT * FROM prayer_time WHERE city = :city AND country_code = :countryCode AND date = :date")
+    fun getPrayerTimes(countryCode: String, city: String, date: String): FixedPrayerTime
 }
 
-@Database(entities = [Country::class, City::class, PrayerTime::class], version = 1)
+@Database(entities = [Country::class, City::class, FixedPrayerTime::class], version = 1)
 abstract class MuslimDataDatabase : RoomDatabase() {
     abstract val muslimDataDao: MuslimDataDao
 

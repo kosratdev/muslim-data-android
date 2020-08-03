@@ -12,7 +12,7 @@ import androidx.room.*
 data class City(
     @PrimaryKey val _id: Long,
     @ColumnInfo(name = "country_code") val countryCode: String,
-    @ColumnInfo(name= "city_name") val cityName: String,
+    @ColumnInfo(name = "city_name") val cityName: String,
     val latitude: Double,
     val longitude: Double,
     @ColumnInfo(name = "has_fixed_prayer_time") val hasFixedPrayerTime: Boolean

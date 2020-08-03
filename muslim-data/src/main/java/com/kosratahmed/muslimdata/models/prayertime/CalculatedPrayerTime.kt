@@ -1,9 +1,11 @@
 package com.kosratahmed.muslimdata.models.prayertime
 
+import com.kosratahmed.muslimdata.extensions.toDate
+import com.kosratahmed.muslimdata.models.City
 import java.util.*
-import kotlin.collections.HashMap
 import kotlin.math.*
 
+@Suppress("NAME_SHADOWING")
 class CalculatedPrayerTime(private val attribute: PrayerAttribute) {
 
     // ---------------------- Global Variables --------------------
@@ -60,33 +62,11 @@ class CalculatedPrayerTime(private val attribute: PrayerAttribute) {
     // degree arc cos
     private fun dArcCos(x: Double): Double = radiansToDegrees(acos(x))
 
-    // degree arc tan
-    private fun dArcTan(x: Double): Double = radiansToDegrees(atan(x))
-
     // degree arc tan 2
     private fun dArcTan2(y: Double, x: Double): Double = radiansToDegrees(atan2(y, x))
 
     // degree arc cot
     private fun dArcCot(x: Double): Double = radiansToDegrees(atan2(1.0, x))
-
-    // ---------------------- Time-Zone Functions -----------------------
-    // compute local time-zone for a specific date
-    private fun getTimeZone1(): Double {
-        val timeZone = TimeZone.getDefault()
-        return timeZone.rawOffset / 1000.0 / 3600
-    }
-
-    // compute base time-zone of the system
-    private fun getBaseTimeZone(): Double {
-        val timeZone = TimeZone.getDefault()
-        return timeZone.rawOffset / 1000.0 / 3600
-    }
-
-    // detect daylight saving in a given date
-    private fun detectDaylightSaving(): Double {
-        val timeZone = TimeZone.getDefault()
-        return timeZone.dstSavings.toDouble()
-    }
 
     // ---------------------- Julian Date Functions -----------------------
     // calculate julian date from a calendar date
@@ -102,37 +82,25 @@ class CalculatedPrayerTime(private val attribute: PrayerAttribute) {
         return (floor(365.25 * (year + 4716)) + floor(30.6001 * (month + 1)) + day + b) - 1524.5
     }
 
-    // convert a calendar date to julian date (second method)
-    private fun calcJD(year: Int, month: Int, day: Int): Double {
-        val j1970 = 2440588.0
-        val date = Date(year, month - 1, day)
-        val ms = date.time.toDouble() // # of milliseconds since midnight Jan 1,
-        // 1970
-        val days = floor(ms / (1000.0 * 60.0 * 60.0 * 24.0))
-        return j1970 + days - 0.5
-    }
-
     // ---------------------- Calculation Functions -----------------------
     // References:
     // http://www.ummah.net/astronomy/saltime
     // http://aa.usno.navy.mil/faq/docs/SunApprox.html
     // compute declination angle of sun and equation of time
     private fun sunPosition(jd: Double): DoubleArray {
-        val D = jd - 2451545
-        val g = fixAngle(357.529 + 0.98560028 * D)
-        val q = fixAngle(280.459 + 0.98564736 * D)
-        val L = fixAngle(q + 1.915 * dSin(g) + 0.020 * dSin(2 * g))
+        val d1 = jd - 2451545
+        val g = fixAngle(357.529 + 0.98560028 * d1)
+        val q = fixAngle(280.459 + 0.98564736 * d1)
+        val l = fixAngle(q + 1.915 * dSin(g) + 0.020 * dSin(2 * g))
 
-        // double R = 1.00014 - 0.01671 * [self dcos:g] - 0.00014 * [self dcos:
-        // (2*g)];
-        val e = 23.439 - 0.00000036 * D
-        val d = dArcSin(dSin(e) * dSin(L))
-        var RA = dArcTan2(dCos(e) * dSin(L), dCos(L)) / 15.0
-        RA = fixHour(RA)
-        val EqT = q / 15.0 - RA
+        val e = 23.439 - 0.00000036 * d1
+        val d2 = dArcSin(dSin(e) * dSin(l))
+        var ra = dArcTan2(dCos(e) * dSin(l), dCos(l)) / 15.0
+        ra = fixHour(ra)
+        val eqt = q / 15.0 - ra
         val sPosition = DoubleArray(2)
-        sPosition[0] = d
-        sPosition[1] = EqT
+        sPosition[0] = d2
+        sPosition[1] = eqt
         return sPosition
     }
 
@@ -171,35 +139,31 @@ class CalculatedPrayerTime(private val attribute: PrayerAttribute) {
     private fun timeDiff(time1: Double, time2: Double): Double = fixHour(time2 - time1)
 
     // -------------------- Interface Functions --------------------
-    // return prayer times for a given date
-    private fun getDatePrayerTimes(
-        year: Int,
-        month: Int,
-        day: Int,
-        latitude: Double,
-        longitude: Double,
-        tZone: Double
-    ): ArrayList<String> {
-        lat = latitude
-        lng = longitude
-        timeZone = tZone
-        jDate = julianDate(year, month, day)
-        val lonDiff = longitude / (15.0 * 24.0)
-        jDate -= lonDiff
-        return computeDayTimes()
-    }
 
     // return prayer times for a given date
-    fun getPrayerTimes(
-        date: Calendar,
-        latitude: Double,
-        longitude: Double,
-        tZone: Double
-    ): ArrayList<String> {
-        val year = date[Calendar.YEAR]
-        val month = date[Calendar.MONTH]
-        val day = date[Calendar.DATE]
-        return getDatePrayerTimes(year, month + 1, day, latitude, longitude, tZone)
+    fun getPrayerTimes(city: City, date: Date): PrayerTime {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        val year = calendar[Calendar.YEAR]
+        val month = calendar[Calendar.MONTH] + 1
+        val day = calendar[Calendar.DATE]
+        timeZone = TimeZone.getDefault().getOffset(date.time) / (1000.0 * 60.0 * 60.0)
+
+        lat = city.latitude
+        lng = city.longitude
+        jDate = julianDate(year, month, day)
+        val lonDiff = city.longitude / (15.0 * 24.0)
+        jDate -= lonDiff
+
+        val cTime = computeDayTimes()
+        return PrayerTime(
+            cTime[0].toDate(),
+            cTime[1].toDate(),
+            cTime[2].toDate(),
+            cTime[3].toDate(),
+            cTime[4].toDate(),
+            cTime[5].toDate()
+        )
     }
 
     // convert double hours to 24h format
@@ -224,54 +188,6 @@ class CalculatedPrayerTime(private val attribute: PrayerAttribute) {
         return result
     }
 
-    // convert double hours to 12h format
-    private fun floatToTime12(time: Double, noSuffix: Boolean): String {
-        var time = time
-        if (java.lang.Double.isNaN(time)) {
-            return invalidTime
-        }
-        time = fixHour(time + 0.5 / 60) // add 0.5 minutes to round
-        var hours = floor(time).toInt()
-        val minutes = floor((time - hours) * 60)
-        val suffix: String
-        val result: String
-        suffix = if (hours >= 12) {
-            "PM"
-        } else {
-            "AM"
-        }
-        hours = (hours + 12 - 1) % 12 + 1
-        /*hours = (hours + 12) - 1;
-        int hrs = (int) hours % 12;
-        hrs += 1;*/
-        result = if (!noSuffix) {
-            if (hours in 0..9 && minutes >= 0 && minutes <= 9) {
-                ("0" + hours + ":0" + minutes.roundToInt() + " "
-                        + suffix)
-            } else if (hours in 0..9) {
-                "0" + hours + ":" + minutes.roundToInt() + " " + suffix
-            } else if (minutes in 0.0..9.0) {
-                hours.toString() + ":0" + minutes.roundToInt() + " " + suffix
-            } else {
-                hours.toString() + ":" + minutes.roundToInt() + " " + suffix
-            }
-        } else {
-            if (hours in 0..9 && minutes in 0.0..9.0) {
-                "0" + hours + ":0" + minutes.roundToInt()
-            } else if (hours in 0..9) {
-                "0" + hours + ":" + minutes.roundToInt()
-            } else if (minutes in 0.0..9.0) {
-                hours.toString() + ":0" + minutes.roundToInt()
-            } else {
-                hours.toString() + ":" + minutes.roundToInt()
-            }
-        }
-        return result
-    }
-
-    // convert double hours to 12h format with no suffix
-    fun floatToTime12NS(time: Double): String = floatToTime12(time, true)
-
     // ---------------------- Compute Prayer Times -----------------------
     // compute prayer times at given julian date
     private fun computeTimes(times: DoubleArray): DoubleArray {
@@ -295,7 +211,6 @@ class CalculatedPrayerTime(private val attribute: PrayerAttribute) {
             times = computeTimes(times)
         }
         times = adjustTimes(times)
-        times = tuneTimes(times)
         return adjustTimesFormat(times)
     }
 
@@ -322,18 +237,8 @@ class CalculatedPrayerTime(private val attribute: PrayerAttribute) {
     // convert times array to given time format
     private fun adjustTimesFormat(times: DoubleArray): ArrayList<String> {
         val result = ArrayList<String>()
-        if (attribute.timeFormat == TimeFormat.FLOATING) {
-            for (time in times) {
-                result.add(time.toString())
-            }
-            return result
-        }
         for (i in 0..6) {
-            when (attribute.timeFormat) {
-                TimeFormat.TIME_12 -> result.add(floatToTime12(times[i], false))
-                TimeFormat.TIME_12_NS -> result.add(floatToTime12(times[i], true))
-                else -> result.add(floatToTime24(times[i]))
-            }
+            result.add(floatToTime24(times[i]))
         }
         // remove sunset I don't need it in My Prayers app.
         result.removeAt(4)
@@ -383,29 +288,18 @@ class CalculatedPrayerTime(private val attribute: PrayerAttribute) {
 
     // the night portion used for adjusting times in higher latitudes
     private fun nightPortion(angle: Double): Double {
-        var calc = 0.0
-        when (attribute.higherLatitudeMethod) {
-            HigherLatitudeMethod.ANGLE_BASED -> calc = angle / 60.0
-            HigherLatitudeMethod.MID_NIGHT -> calc = 0.5
-            HigherLatitudeMethod.ONE_SEVEN -> calc = 0.14286
+        return when (attribute.higherLatitudeMethod) {
+            HigherLatitudeMethod.ANGLE_BASED -> angle / 60.0
+            HigherLatitudeMethod.MID_NIGHT -> 0.5
+            HigherLatitudeMethod.ONE_SEVEN -> 0.14286
+            HigherLatitudeMethod.NONE -> 0.0
         }
-        return calc
     }
 
     // convert hours to day portions
     private fun dayPortion(times: DoubleArray): DoubleArray {
         for (i in times.indices) {
             times[i] /= 24.0
-        }
-        return times
-    }
-
-    private fun tuneTimes(times: DoubleArray): DoubleArray {
-        var j = 0
-        for (i in times.indices) {
-            if (i == 4) continue
-            times[i] = times[i] + attribute.offset[j] / 60.0
-            j++
         }
         return times
     }
