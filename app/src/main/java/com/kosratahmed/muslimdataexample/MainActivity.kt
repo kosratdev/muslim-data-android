@@ -8,6 +8,7 @@ import com.kosratahmed.muslimdata.models.prayertime.*
 import com.kosratahmed.muslimdata.repository.Repository
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,13 +17,14 @@ class MainActivity : AppCompatActivity() {
 
 
         lifecycleScope.launch {
-            val search = Repository(this@MainActivity).searchCity("erb")
+            val repository = Repository(this@MainActivity)
+            val search = repository.searchCity("erb")
             Log.i("search", "$search")
 
-            val geoCoder = Repository(this@MainActivity).geoCoder("iq", "erbil")
+            val geoCoder = repository.geoCoder("iq", "erbil")
             Log.i("geoCoder", "$geoCoder")
 
-            val geoCoderLocation = Repository(this@MainActivity).geoCoder(36.0901, 43.0930)
+            val geoCoderLocation = repository.geoCoder(36.0901, 43.0930)
             Log.i("geoCoderLocation", "$geoCoderLocation")
 
             val attribute = PrayerAttribute(
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                 HigherLatitudeMethod.ANGLE_BASED,
                 intArrayOf(1, 1, 1, 1, 1, 1)
             )
-            val prayerTime = Repository(this@MainActivity).getPrayerTimes(
+            val prayerTime = repository.getPrayerTimes(
                 geoCoder.city,
                 Date(),
                 attribute
@@ -44,6 +46,9 @@ class MainActivity : AppCompatActivity() {
             Log.i("Next prayer index", "${prayerTime.nextPrayerTimeIndex()}")
             Log.i("Next prayer interval", "${prayerTime.nextPrayerTimeInterval()}")
             Log.i("Next prayer remaining", prayerTime.nextPrayerTimeRemaining())
+
+            val names = repository.getNames("en")
+            Log.i("Names", "$names")
         }
     }
 }

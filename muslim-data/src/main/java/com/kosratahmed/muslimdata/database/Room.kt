@@ -2,9 +2,7 @@ package com.kosratahmed.muslimdata.database
 
 import android.content.Context
 import androidx.room.*
-import com.kosratahmed.muslimdata.models.City
-import com.kosratahmed.muslimdata.models.Country
-import com.kosratahmed.muslimdata.models.CountryAndCity
+import com.kosratahmed.muslimdata.models.*
 import com.kosratahmed.muslimdata.models.prayertime.FixedPrayerTime
 
 @Dao
@@ -24,9 +22,16 @@ interface MuslimDataDao {
 
     @Query("SELECT * FROM prayer_time WHERE city = :city AND country_code = :countryCode AND date = :date")
     fun getPrayerTimes(countryCode: String, city: String, date: String): FixedPrayerTime
+
+    @Transaction
+    @Query("SELECT * FROM name_translation WHERE language = :language")
+    fun getNames(language: String): List<NameWithTranslation>
 }
 
-@Database(entities = [Country::class, City::class, FixedPrayerTime::class], version = 1)
+@Database(
+    entities = [Country::class, City::class, FixedPrayerTime::class, Name::class, NameTranslation::class],
+    version = 1
+)
 abstract class MuslimDataDatabase : RoomDatabase() {
     abstract val muslimDataDao: MuslimDataDao
 

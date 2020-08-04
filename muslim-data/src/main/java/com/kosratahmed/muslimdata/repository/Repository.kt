@@ -5,6 +5,7 @@ import com.kosratahmed.muslimdata.database.MuslimDataDatabase
 import com.kosratahmed.muslimdata.extensions.formatToDBDate
 import com.kosratahmed.muslimdata.extensions.toDate
 import com.kosratahmed.muslimdata.models.City
+import com.kosratahmed.muslimdata.models.NameWithTranslation
 import com.kosratahmed.muslimdata.models.prayertime.CalculatedPrayerTime
 import com.kosratahmed.muslimdata.models.prayertime.PrayerAttribute
 import com.kosratahmed.muslimdata.models.prayertime.PrayerTime
@@ -51,5 +52,9 @@ class Repository(context: Context) {
             prayerTime.applyOffset(attribute.offset)
             prayerTime
         }
+    }
+
+    suspend fun getNames(language: String) = withContext(Dispatchers.IO) {
+        muslimDb.muslimDataDao.getNames(language)
     }
 }
