@@ -49,6 +49,9 @@ class MainActivity : AppCompatActivity() {
 
             val names = repository.getNames("en")
             Log.i("Names", "$names")
+
+            val azkarCategory = repository.getAzkarCategory("en")
+            Log.i("azkar category", "$azkarCategory")
         }
     }
 }

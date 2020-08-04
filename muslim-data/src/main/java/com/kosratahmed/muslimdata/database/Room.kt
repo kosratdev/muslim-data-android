@@ -3,6 +3,9 @@ package com.kosratahmed.muslimdata.database
 import android.content.Context
 import androidx.room.*
 import com.kosratahmed.muslimdata.models.*
+import com.kosratahmed.muslimdata.models.azkars.AzkarCategory
+import com.kosratahmed.muslimdata.models.azkars.AzkarCategoryTranslation
+import com.kosratahmed.muslimdata.models.azkars.AzkarCategoryWithTranslation
 import com.kosratahmed.muslimdata.models.prayertime.FixedPrayerTime
 
 @Dao
@@ -26,10 +29,22 @@ interface MuslimDataDao {
     @Transaction
     @Query("SELECT * FROM name_translation WHERE language = :language")
     fun getNames(language: String): List<NameWithTranslation>
+
+    @Transaction
+    @Query("SELECT * FROM azkar_category_translation WHERE language = :language")
+    fun getAzkarCategory(language: String): List<AzkarCategoryWithTranslation>
 }
 
 @Database(
-    entities = [Country::class, City::class, FixedPrayerTime::class, Name::class, NameTranslation::class],
+    entities = [
+        Country::class,
+        City::class,
+        FixedPrayerTime::class,
+        Name::class,
+        NameTranslation::class,
+        AzkarCategory::class,
+        AzkarCategoryTranslation::class
+    ],
     version = 1
 )
 abstract class MuslimDataDatabase : RoomDatabase() {

@@ -57,4 +57,8 @@ class Repository(context: Context) {
     suspend fun getNames(language: String) = withContext(Dispatchers.IO) {
         muslimDb.muslimDataDao.getNames(language)
     }
+
+    suspend fun getAzkarCategory(language: String) = withContext(Dispatchers.IO) {
+        muslimDb.muslimDataDao.getAzkarCategory(language)
+    }
 }
