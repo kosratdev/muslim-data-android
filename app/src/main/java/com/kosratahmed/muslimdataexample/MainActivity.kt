@@ -8,7 +8,6 @@ import com.kosratahmed.muslimdata.models.prayertime.*
 import com.kosratahmed.muslimdata.repository.Repository
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,8 +49,11 @@ class MainActivity : AppCompatActivity() {
             val names = repository.getNames("en")
             Log.i("Names", "$names")
 
-            val azkarCategory = repository.getAzkarCategory("en")
+            val azkarCategory = repository.getAzkarCategories("en")
             Log.i("azkar category", "$azkarCategory")
+
+            val azkarChapters = repository.getAzkarChapters("en")
+            Log.i("azkar chapters", "$azkarChapters")
         }
     }
 }

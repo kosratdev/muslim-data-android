@@ -3,9 +3,7 @@ package com.kosratahmed.muslimdata.database
 import android.content.Context
 import androidx.room.*
 import com.kosratahmed.muslimdata.models.*
-import com.kosratahmed.muslimdata.models.azkars.AzkarCategory
-import com.kosratahmed.muslimdata.models.azkars.AzkarCategoryTranslation
-import com.kosratahmed.muslimdata.models.azkars.AzkarCategoryWithTranslation
+import com.kosratahmed.muslimdata.models.azkars.*
 import com.kosratahmed.muslimdata.models.prayertime.FixedPrayerTime
 
 @Dao
@@ -32,7 +30,11 @@ interface MuslimDataDao {
 
     @Transaction
     @Query("SELECT * FROM azkar_category_translation WHERE language = :language")
-    fun getAzkarCategory(language: String): List<AzkarCategoryWithTranslation>
+    fun getAzkarCategories(language: String): List<AzkarCategoryWithTranslation>
+
+    @Transaction
+    @Query("SELECT * FROM azkar_chapter_translation WHERE language = :language")
+    fun getAzkarChapters(language: String): List<AzkarChapterWithTranslation>
 }
 
 @Database(
@@ -43,7 +45,9 @@ interface MuslimDataDao {
         Name::class,
         NameTranslation::class,
         AzkarCategory::class,
-        AzkarCategoryTranslation::class
+        AzkarCategoryTranslation::class,
+        AzkarChapter::class,
+        AzkarChapterTranslation::class
     ],
     version = 1
 )
