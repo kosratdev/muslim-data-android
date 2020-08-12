@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                 intArrayOf(1, 1, 1, 1, 1, 1)
             )
             val prayerTime = repository.getPrayerTimes(
-                geoCoder.city,
+                geoCoder,
                 Date(),
                 attribute
             )

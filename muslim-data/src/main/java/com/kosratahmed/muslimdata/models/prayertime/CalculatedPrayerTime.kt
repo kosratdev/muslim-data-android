@@ -2,6 +2,7 @@ package com.kosratahmed.muslimdata.models.prayertime
 
 import com.kosratahmed.muslimdata.extensions.toDate
 import com.kosratahmed.muslimdata.models.City
+import com.kosratahmed.muslimdata.models.UserLocation
 import java.util.*
 import kotlin.math.*
 
@@ -141,7 +142,7 @@ class CalculatedPrayerTime(private val attribute: PrayerAttribute) {
     // -------------------- Interface Functions --------------------
 
     // return prayer times for a given date
-    fun getPrayerTimes(city: City, date: Date): PrayerTime {
+    fun getPrayerTimes(location: UserLocation, date: Date): PrayerTime {
         val calendar = Calendar.getInstance()
         calendar.time = date
         val year = calendar[Calendar.YEAR]
@@ -149,10 +150,10 @@ class CalculatedPrayerTime(private val attribute: PrayerAttribute) {
         val day = calendar[Calendar.DATE]
         timeZone = TimeZone.getDefault().getOffset(date.time) / (1000.0 * 60.0 * 60.0)
 
-        lat = city.latitude
-        lng = city.longitude
+        lat = location.latitude
+        lng = location.longitude
         jDate = julianDate(year, month, day)
-        val lonDiff = city.longitude / (15.0 * 24.0)
+        val lonDiff = location.longitude / (15.0 * 24.0)
         jDate -= lonDiff
 
         val cTime = computeDayTimes()

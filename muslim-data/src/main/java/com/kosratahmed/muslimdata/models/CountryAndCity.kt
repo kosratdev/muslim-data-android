@@ -2,6 +2,41 @@ package com.kosratahmed.muslimdata.models
 
 import androidx.room.*
 
+class UserLocation private constructor(
+    val countryCode: String,
+    val countryName: String,
+    val cityName: String,
+    val latitude: Double,
+    val longitude: Double,
+    val hasFixedPrayerTime: Boolean
+) {
+    companion object {
+        internal fun mapDBLocation(location: CountryAndCity): UserLocation {
+            return UserLocation(
+                location.country.countryCode,
+                location.country.countryName,
+                location.city.cityName,
+                location.city.latitude,
+                location.city.longitude,
+                location.city.hasFixedPrayerTime
+            )
+        }
+
+        internal fun mapDBLocations(locations: List<CountryAndCity>): List<UserLocation> {
+            return locations.map {
+                UserLocation(
+                    it.country.countryCode,
+                    it.country.countryName,
+                    it.city.cityName,
+                    it.city.latitude,
+                    it.city.longitude,
+                    it.city.hasFixedPrayerTime
+                )
+            }
+        }
+    }
+}
+
 @Entity(
     tableName = "city",
     indices = [

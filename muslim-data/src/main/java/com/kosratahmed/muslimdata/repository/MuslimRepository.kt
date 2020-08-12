@@ -6,6 +6,7 @@ import com.kosratahmed.muslimdata.extensions.formatToDBDate
 import com.kosratahmed.muslimdata.extensions.toDate
 import com.kosratahmed.muslimdata.models.City
 import com.kosratahmed.muslimdata.models.NameOfAllah
+import com.kosratahmed.muslimdata.models.UserLocation
 import com.kosratahmed.muslimdata.models.prayertime.CalculatedPrayerTime
 import com.kosratahmed.muslimdata.models.prayertime.PrayerAttribute
 import com.kosratahmed.muslimdata.models.prayertime.PrayerTime
@@ -17,24 +18,24 @@ class MuslimRepository(context: Context) {
     private val muslimDb = MuslimDataDatabase.getInstance(context)
 
     suspend fun searchCity(city: String) = withContext(Dispatchers.IO) {
-        muslimDb.muslimDataDao.searchCity("$city%")
+        UserLocation.mapDBLocations(muslimDb.muslimDataDao.searchCity("$city%"))
     }
 
     suspend fun geoCoder(countryCode: String, city: String) = withContext(Dispatchers.IO) {
-        muslimDb.muslimDataDao.geoCoder(countryCode, city)
+        UserLocation.mapDBLocation(muslimDb.muslimDataDao.geoCoder(countryCode, city))
     }
 
     suspend fun geoCoder(latitude: Double, longitude: Double) = withContext(Dispatchers.IO) {
-        muslimDb.muslimDataDao.geoCoder(latitude, longitude)
+        UserLocation.mapDBLocation(muslimDb.muslimDataDao.geoCoder(latitude, longitude))
     }
 
-    suspend fun getPrayerTimes(city: City, date: Date, attribute: PrayerAttribute): PrayerTime {
+    suspend fun getPrayerTimes(location: UserLocation, date: Date, attribute: PrayerAttribute): PrayerTime {
         return withContext(Dispatchers.IO) {
             val prayerTime: PrayerTime
-            if (city.hasFixedPrayerTime) {
+            if (location.hasFixedPrayerTime) {
                 val fixedPrayer = muslimDb.muslimDataDao.getPrayerTimes(
-                    city.countryCode,
-                    city.cityName,
+                    location.countryCode,
+                    location.cityName,
                     date.formatToDBDate()
                 )
                 prayerTime = PrayerTime(
@@ -47,7 +48,7 @@ class MuslimRepository(context: Context) {
                 )
                 prayerTime.adjustDST()
             } else {
-                prayerTime = CalculatedPrayerTime(attribute).getPrayerTimes(city, date)
+                prayerTime = CalculatedPrayerTime(attribute).getPrayerTimes(location, date)
             }
             prayerTime.applyOffset(attribute.offset)
             prayerTime
