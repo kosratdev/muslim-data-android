@@ -7,6 +7,9 @@ import com.kosratahmed.muslimdata.extensions.toDate
 import com.kosratahmed.muslimdata.models.City
 import com.kosratahmed.muslimdata.models.NameOfAllah
 import com.kosratahmed.muslimdata.models.UserLocation
+import com.kosratahmed.muslimdata.models.azkars.AzkarCategory
+import com.kosratahmed.muslimdata.models.azkars.AzkarChapter
+import com.kosratahmed.muslimdata.models.azkars.AzkarItem
 import com.kosratahmed.muslimdata.models.prayertime.CalculatedPrayerTime
 import com.kosratahmed.muslimdata.models.prayertime.PrayerAttribute
 import com.kosratahmed.muslimdata.models.prayertime.PrayerTime
@@ -60,14 +63,14 @@ class MuslimRepository(context: Context) {
     }
 
     suspend fun getAzkarCategories(language: String) = withContext(Dispatchers.IO) {
-        muslimDb.muslimDataDao.getAzkarCategories(language)
+        AzkarCategory.mapDBAzkarCategories(muslimDb.muslimDataDao.getAzkarCategories(language))
     }
 
     suspend fun getAzkarChapters(language: String) = withContext(Dispatchers.IO) {
-        muslimDb.muslimDataDao.getAzkarChapters(language)
+        AzkarChapter.mapDBAzkarChapters(muslimDb.muslimDataDao.getAzkarChapters(language))
     }
 
     suspend fun getAzkarItems(chapterId: Int, language: String) = withContext(Dispatchers.IO) {
-        muslimDb.muslimDataDao.getAzkarItems(chapterId, language)
+        AzkarItem.mapDBAzkarItems(muslimDb.muslimDataDao.getAzkarItems(chapterId, language))
     }
 }

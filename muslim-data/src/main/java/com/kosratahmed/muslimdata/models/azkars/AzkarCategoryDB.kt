@@ -2,21 +2,29 @@ package com.kosratahmed.muslimdata.models.azkars
 
 import androidx.room.*
 
+class AzkarCategory private constructor(val categoryName: String) {
+    companion object {
+        internal fun mapDBAzkarCategories(categories: List<AzkarCategoryWithTranslation>): List<AzkarCategory> {
+            return categories.map { AzkarCategory(it.translation.categoryName) }
+        }
+    }
+}
+
 @Entity(tableName = "azkar_category")
-data class AzkarCategory(
+internal data class AzkarCategoryDB(
     @PrimaryKey val _id: Long
 )
 
 @Entity(tableName = "azkar_category_translation")
-data class AzkarCategoryTranslation(
+internal data class AzkarCategoryTranslation(
     @PrimaryKey val _id: Long,
     @ColumnInfo(name = "category_id") val categoryId: Long,
     val language: String,
     @ColumnInfo(name = "category_name") val categoryName: String
 )
 
-data class AzkarCategoryWithTranslation(
+internal data class AzkarCategoryWithTranslation(
     @Embedded val translation: AzkarCategoryTranslation,
     @Relation(parentColumn = "category_id", entityColumn = "_id")
-    val azkarCategory: AzkarCategory
+    val azkarCategory: AzkarCategoryDB
 )
