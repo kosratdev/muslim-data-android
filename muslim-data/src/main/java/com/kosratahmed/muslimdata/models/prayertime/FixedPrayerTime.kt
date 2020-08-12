@@ -5,6 +5,9 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+/**
+ * Prayer time class that will be used as prayer_time table.
+ */
 @Entity(
     tableName = "prayer_time",
     indices = [Index(name = "prayer_index", value = ["country_code", "city", "date"])]

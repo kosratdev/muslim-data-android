@@ -19,10 +19,10 @@ class MainActivity : AppCompatActivity() {
             val search = repository.searchCity("erb")
             Log.i("search", "$search")
 
-            val geoCoder = repository.geoCoder("iq", "erbil")
+            val geoCoder = repository.reverseGeoCoder("iq", "erbil")
             Log.i("geoCoder", "$geoCoder")
 
-            val geoCoderLocation = repository.geoCoder(36.0901, 43.0930)
+            val geoCoderLocation = repository.reverseGeoCoder(36.0901, 43.0930)
             Log.i("geoCoderLocation", "$geoCoderLocation")
 
             val attribute = PrayerAttribute(

@@ -6,6 +6,9 @@ import com.kosratahmed.muslimdata.extensions.addMinutes
 import com.kosratahmed.muslimdata.extensions.format
 import java.util.*
 
+/**
+ * Prayer time class that holds all prayer times for a day.
+ */
 class PrayerTime internal constructor(
     fajr: Date,
     sunrise: Date,
@@ -36,6 +39,9 @@ class PrayerTime internal constructor(
         this.isha = isha
     }
 
+    /**
+     * Apply the given offset on the prayer times.
+     */
     internal fun applyOffset(offsets: IntArray) {
         fajr = fajr.addMinutes(offsets[0])
         sunrise = sunrise.addMinutes(offsets[1])
@@ -45,6 +51,9 @@ class PrayerTime internal constructor(
         isha = isha.addMinutes(offsets[5])
     }
 
+    /**
+     * Adjust prayer times for day lighting save.
+     */
     internal fun adjustDST() {
         val timeZone = TimeZone.getDefault()
 
@@ -58,6 +67,10 @@ class PrayerTime internal constructor(
         }
     }
 
+    /**
+     * Format prayer times by given format and the default one is 24 hours format and also it will
+     * return a formatted prayer time list.
+     */
     fun formatPrayerTime(format: TimeFormat = TimeFormat.TIME_24): Array<String> {
         return arrayOf(
             fajr.format(format),
@@ -69,6 +82,9 @@ class PrayerTime internal constructor(
         )
     }
 
+    /**
+     * Find and return next prayer time index.
+     */
     fun nextPrayerTimeIndex(): Int {
         val prayers = arrayOf(fajr, sunrise, dhuhr, asr, maghrib, isha)
         val now = Date()
@@ -80,6 +96,9 @@ class PrayerTime internal constructor(
         return -1
     }
 
+    /**
+     * Find and return the next prayer time interval.
+     */
     fun nextPrayerTimeInterval(): Long {
         val prayers = arrayOf(fajr, sunrise, dhuhr, asr, maghrib, isha)
         val index = nextPrayerTimeIndex()
@@ -91,6 +110,9 @@ class PrayerTime internal constructor(
         return prayers[index].time - Date().time
     }
 
+    /**
+     * Find and return next prayer time remaining.
+     */
     fun nextPrayerTimeRemaining(): String {
         var time = nextPrayerTimeInterval()
         val hour = time / 3600000

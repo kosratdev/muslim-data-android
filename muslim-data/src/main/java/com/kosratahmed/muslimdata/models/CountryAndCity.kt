@@ -2,6 +2,9 @@ package com.kosratahmed.muslimdata.models
 
 import androidx.room.*
 
+/**
+ * User location class that holds all information about user's location.
+ */
 class UserLocation private constructor(
     val countryCode: String,
     val countryName: String,
@@ -11,6 +14,9 @@ class UserLocation private constructor(
     val hasFixedPrayerTime: Boolean
 ) {
     companion object {
+        /**
+         * Map CountryAndCity object to UserLocation object.
+         */
         internal fun mapDBLocation(location: CountryAndCity): UserLocation {
             return UserLocation(
                 location.country.countryCode,
@@ -22,6 +28,9 @@ class UserLocation private constructor(
             )
         }
 
+        /**
+         * Map list of CountryAndCity object to list of UserLocation object.
+         */
         internal fun mapDBLocations(locations: List<CountryAndCity>): List<UserLocation> {
             return locations.map {
                 UserLocation(
@@ -37,6 +46,9 @@ class UserLocation private constructor(
     }
 }
 
+/**
+ * City class that will be used as city table.
+ */
 @Entity(
     tableName = "city",
     indices = [
@@ -53,6 +65,9 @@ data class City(
     @ColumnInfo(name = "has_fixed_prayer_time") val hasFixedPrayerTime: Boolean
 )
 
+/**
+ * Country class that will be used as country table.
+ */
 @Entity(
     tableName = "country",
     indices = [Index(name = "country_code_index", value = ["country_code"])]
@@ -65,6 +80,9 @@ data class Country(
     @ColumnInfo(name = "country_language") val countryLanguage: String
 )
 
+/**
+ * Country and city class that will be used as a relationship between city and country table.
+ */
 data class CountryAndCity(
     @Embedded val city: City,
     @Relation(parentColumn = "country_code", entityColumn = "country_code")

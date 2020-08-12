@@ -1,5 +1,8 @@
 package com.kosratahmed.muslimdata.models.prayertime
 
+/**
+ * Prayer attribute that holds all information to create prayer times object.
+ */
 class PrayerAttribute(
     val calculationMethod: CalculationMethod,
     val asrMethod: AsrMethod,
@@ -7,6 +10,9 @@ class PrayerAttribute(
     val offset: IntArray = IntArray(6) { 0 }
 )
 
+/**
+ * Prayer calculation methods.
+ */
 enum class CalculationMethod {
     MAKKAH, // Umm al-Qura, Makkah
     MWL, // Muslim World League (MWL)
@@ -33,11 +39,17 @@ enum class CalculationMethod {
     }
 }
 
+/**
+ * Prayer asr method.
+ */
 enum class AsrMethod(val value: Int) {
     SHAFII(0), // Shafii (standard)
     HANAFI(1), // Hanafi
 }
 
+/**
+ * Prayer higher latitude method.
+ */
 enum class HigherLatitudeMethod {
     NONE, // No adjustment
     MID_NIGHT, // middle of night
@@ -45,6 +57,9 @@ enum class HigherLatitudeMethod {
     ANGLE_BASED // floating point number
 }
 
+/**
+ * Prayer time format.
+ */
 enum class TimeFormat {
     TIME_24, // 24-hour format
     TIME_12, // 12-hour format
