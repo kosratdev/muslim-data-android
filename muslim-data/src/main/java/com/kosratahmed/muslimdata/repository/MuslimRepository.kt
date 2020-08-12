@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
 
-class Repository(context: Context) {
+class MuslimRepository(context: Context) {
     private val muslimDb = MuslimDataDatabase.getInstance(context)
 
     suspend fun searchCity(city: String) = withContext(Dispatchers.IO) {

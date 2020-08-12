@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.kosratahmed.muslimdata.models.prayertime.*
-import com.kosratahmed.muslimdata.repository.Repository
+import com.kosratahmed.muslimdata.repository.MuslimRepository
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
 
         lifecycleScope.launch {
-            val repository = Repository(this@MainActivity)
+            val repository = MuslimRepository(this@MainActivity)
             val search = repository.searchCity("erb")
             Log.i("search", "$search")
 
