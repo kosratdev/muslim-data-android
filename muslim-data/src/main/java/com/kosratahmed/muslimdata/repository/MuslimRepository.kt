@@ -5,6 +5,7 @@ import com.kosratahmed.muslimdata.database.MuslimDataDatabase
 import com.kosratahmed.muslimdata.extensions.formatToDBDate
 import com.kosratahmed.muslimdata.extensions.toDate
 import com.kosratahmed.muslimdata.models.City
+import com.kosratahmed.muslimdata.models.NameOfAllah
 import com.kosratahmed.muslimdata.models.prayertime.CalculatedPrayerTime
 import com.kosratahmed.muslimdata.models.prayertime.PrayerAttribute
 import com.kosratahmed.muslimdata.models.prayertime.PrayerTime
@@ -53,8 +54,8 @@ class MuslimRepository(context: Context) {
         }
     }
 
-    suspend fun getNames(language: String) = withContext(Dispatchers.IO) {
-        muslimDb.muslimDataDao.getNames(language)
+    suspend fun getNamesOfAllah(language: String) = withContext(Dispatchers.IO) {
+        NameOfAllah.mapDBNames(muslimDb.muslimDataDao.getNames(language))
     }
 
     suspend fun getAzkarCategories(language: String) = withContext(Dispatchers.IO) {

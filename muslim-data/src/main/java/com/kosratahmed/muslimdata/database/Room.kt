@@ -7,7 +7,7 @@ import com.kosratahmed.muslimdata.models.azkars.*
 import com.kosratahmed.muslimdata.models.prayertime.FixedPrayerTime
 
 @Dao
-interface MuslimDataDao {
+internal interface MuslimDataDao {
 
     @Transaction
     @Query("SELECT * FROM city WHERE city_name LIKE :city")
@@ -61,7 +61,7 @@ interface MuslimDataDao {
     version = 1
 )
 abstract class MuslimDataDatabase : RoomDatabase() {
-    abstract val muslimDataDao: MuslimDataDao
+    internal abstract val muslimDataDao: MuslimDataDao
 
     companion object {
 

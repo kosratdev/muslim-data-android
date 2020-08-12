@@ -14,7 +14,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         lifecycleScope.launch {
             val repository = MuslimRepository(this@MainActivity)
             val search = repository.searchCity("erb")
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             Log.i("Next prayer interval", "${prayerTime.nextPrayerTimeInterval()}")
             Log.i("Next prayer remaining", prayerTime.nextPrayerTimeRemaining())
 
-            val names = repository.getNames("en")
+            val names = repository.getNamesOfAllah("en")
             Log.i("Names", "$names")
 
             val azkarCategory = repository.getAzkarCategories("en")

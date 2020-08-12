@@ -2,21 +2,29 @@ package com.kosratahmed.muslimdata.models
 
 import androidx.room.*
 
+class NameOfAllah private constructor(val name: String, val translation: String) {
+    companion object {
+        internal fun mapDBNames(dbNames: List<NameWithTranslation>): List<NameOfAllah> {
+            return dbNames.map { NameOfAllah(it.name.name, it.translation.name) }
+        }
+    }
+}
+
 @Entity(tableName = "name")
-data class Name(
+internal data class Name(
     @PrimaryKey val _id: Long,
     val name: String
 )
 
 @Entity(tableName = "name_translation")
-data class NameTranslation(
+internal data class NameTranslation(
     @PrimaryKey val _id: Long,
     @ColumnInfo(name = "name_id") val nameId: Long,
     val language: String,
     val name: String
 )
 
-data class NameWithTranslation(
+internal data class NameWithTranslation(
     @Embedded val translation: NameTranslation,
     @Relation(parentColumn = "name_id", entityColumn = "_id")
     val name: Name
