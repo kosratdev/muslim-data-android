@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
     tableName = "prayer_time",
     indices = [Index(name = "prayer_index", value = ["country_code", "city", "date"])]
 )
-data class FixedPrayerTime(
+internal data class FixedPrayerTime(
     @PrimaryKey val _id: Long,
     @ColumnInfo(name = "country_code") val countryCode: String,
     val city: String,

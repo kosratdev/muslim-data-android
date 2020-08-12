@@ -6,7 +6,7 @@ import com.kosratahmed.muslimdata.extensions.addMinutes
 import com.kosratahmed.muslimdata.extensions.format
 import java.util.*
 
-class PrayerTime(
+class PrayerTime internal constructor(
     fajr: Date,
     sunrise: Date,
     dhuhr: Date,
@@ -14,7 +14,6 @@ class PrayerTime(
     maghrib: Date,
     isha: Date
 ) {
-
     var fajr: Date
         private set
     var sunrise: Date

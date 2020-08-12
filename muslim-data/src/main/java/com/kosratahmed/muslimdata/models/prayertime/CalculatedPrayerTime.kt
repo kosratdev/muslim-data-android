@@ -7,7 +7,7 @@ import java.util.*
 import kotlin.math.*
 
 @Suppress("NAME_SHADOWING")
-class CalculatedPrayerTime(private val attribute: PrayerAttribute) {
+internal class CalculatedPrayerTime(private val attribute: PrayerAttribute) {
 
     // ---------------------- Global Variables --------------------
     private var lat = 0.0 // latitude
