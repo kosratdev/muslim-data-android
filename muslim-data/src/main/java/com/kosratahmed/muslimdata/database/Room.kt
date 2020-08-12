@@ -35,6 +35,10 @@ interface MuslimDataDao {
     @Transaction
     @Query("SELECT * FROM azkar_chapter_translation WHERE language = :language")
     fun getAzkarChapters(language: String): List<AzkarChapterWithTranslation>
+
+    @Transaction
+    @Query("SELECT * FROM azkar_view WHERE chapterId = :chapterId AND language = :language")
+    fun getAzkarItems(chapterId: Int, language: String): List<AzkarItemDetail>
 }
 
 @Database(
@@ -47,8 +51,13 @@ interface MuslimDataDao {
         AzkarCategory::class,
         AzkarCategoryTranslation::class,
         AzkarChapter::class,
-        AzkarChapterTranslation::class
+        AzkarChapterTranslation::class,
+        AzkarItem::class,
+        AzkarItemTranslation::class,
+        AzkarReference::class,
+        AzkarReferenceTranslation::class
     ],
+    views = [AzkarItemDetail::class],
     version = 1
 )
 abstract class MuslimDataDatabase : RoomDatabase() {
