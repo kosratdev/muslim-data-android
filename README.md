@@ -91,7 +91,7 @@ Get all azkar categories and it is localized for the given language.
 ```kotlin
 lifecycleScope.launch {
     val repository = MuslimRepository(this@MainActivity)
-    val azkarCategories = repository.getAzkarCategories("en")
+    val azkarCategories = repository.getAzkarCategories(Language.EN)
     Log.i("azkarCategories", "$azkarCategories")
 }
 ```
@@ -103,7 +103,7 @@ Get azkar chapters and it is localized for the given language.
 ```kotlin
 lifecycleScope.launch {
     val repository = MuslimRepository(this@MainActivity)
-    val azkarChapters = repository.getAzkarChapters("en")
+    val azkarChapters = repository.getAzkarChapters(Language.EN)
     Log.i("azkarChapters", "$azkarChapters")
 }
 ```
@@ -113,7 +113,7 @@ Get azkar chapters for a specific category and it is localized for the given lan
 ```kotlin
 lifecycleScope.launch {
     val repository = MuslimRepository(this@MainActivity)
-    val azkarChapters = repository.getAzkarChapters("en", 1)
+    val azkarChapters = repository.getAzkarChapters(1, Language.EN)
     Log.i("azkarChapters", "$azkarChapters")
 }
 ```
@@ -124,7 +124,7 @@ Get azkar items for a specific chapter and it is localized for the given languag
 ```kotlin
 lifecycleScope.launch {
     val repository = MuslimRepository(this@MainActivity)
-    val azkarItems = repository.getAzkarItems(1, "en")
+    val azkarItems = repository.getAzkarItems(1, Language.EN)
     Log.i("azkarItems", "$azkarItems")
 }
 ```
@@ -136,7 +136,7 @@ Get 99 Names of Allah with it's translation and now it is available for these la
 ```kotlin
 lifecycleScope.launch {
     val repository = MuslimRepository(this@MainActivity)
-    val names = repository.getNamesOfAllah("en")
+    val names = repository.getNamesOfAllah(Language.EN)
     Log.i("Names", "$names")
 } 
 ```

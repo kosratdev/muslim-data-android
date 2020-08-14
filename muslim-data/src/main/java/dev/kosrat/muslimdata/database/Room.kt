@@ -24,7 +24,7 @@ internal interface MuslimDataDao {
                 "INNER JOIN country on city.country_code = country.country_code " +
                 "WHERE city_name like :city"
     )
-    fun searchLocation(city: String): List<Location>
+    fun searchLocation(city: String): List<Location>?
 
     /**
      * Get location information based on the provided country code and city name in the database.
@@ -39,7 +39,7 @@ internal interface MuslimDataDao {
                 "WHERE city.country_code= :countryCode  COLLATE NOCASE " +
                 "and city_name= :city COLLATE NOCASE"
     )
-    fun geocoder(countryCode: String, city: String): Location
+    fun geocoder(countryCode: String, city: String): Location?
 
     /**
      * Get location information based on the provided latitude and longitude in the database.
@@ -53,7 +53,7 @@ internal interface MuslimDataDao {
                 "INNER JOIN country on city.country_code = country.country_code " +
                 "ORDER BY abs(latitude - :latitude) + abs(longitude - :longitude) LIMIT 1"
     )
-    fun reverseGeocoder(latitude: Double, longitude: Double): Location
+    fun reverseGeocoder(latitude: Double, longitude: Double): Location?
 
     /**
      * Get prayer times for the specified user's location and date in the database.
@@ -96,7 +96,7 @@ internal interface MuslimDataDao {
                 "INNER JOIN azkar_chapter_translation as tr on tr.chapter_id = chapter._id " +
                 "WHERE language = :language and (:categoryId = -1 OR category_id = :categoryId)"
     )
-    fun getAzkarChapters(language: String, categoryId: Long): List<AzkarChapter>
+    fun getAzkarChapters(language: String, categoryId: Long): List<AzkarChapter>?
 
     /**
      * Get azkar items from the database for the specified chapter id and language.
@@ -112,7 +112,7 @@ internal interface MuslimDataDao {
                 "rtr.language = tr.language " +
                 "WHERE chapterId = :chapterId AND tr.language = :language"
     )
-    fun getAzkarItems(chapterId: Int, language: String): List<AzkarItem>
+    fun getAzkarItems(chapterId: Int, language: String): List<AzkarItem>?
 }
 
 /**

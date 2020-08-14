@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                 intArrayOf(0, 0, 0, 0, 0, 0)
             )
             val prayerTime = repository.getPrayerTimes(
-                location,
+                location!!,
                 Date(),
                 attribute
             )
@@ -45,16 +45,16 @@ class MainActivity : AppCompatActivity() {
             Log.i("nextPrayerTimeInterval", "${prayerTime.nextPrayerTimeInterval()}")
             Log.i("nextPrayerTimeRemaining", prayerTime.nextPrayerTimeRemaining())
 
-            val azkarCategories = repository.getAzkarCategories("en")
+            val azkarCategories = repository.getAzkarCategories(Language.EN)
             Log.i("azkarCategories", "$azkarCategories")
 
-            val azkarChapters = repository.getAzkarChapters("en", 1)
+            val azkarChapters = repository.getAzkarChapters(1, Language.EN)
             Log.i("azkarChapters", "$azkarChapters")
 
-            val azkarItems = repository.getAzkarItems(1, "en")
+            val azkarItems = repository.getAzkarItems(1, Language.EN)
             Log.i("azkarItems", "$azkarItems")
 
-            val names = repository.getNamesOfAllah("en")
+            val names = repository.getNamesOfAllah(Language.EN)
             Log.i("Names", "$names")
         }
     }

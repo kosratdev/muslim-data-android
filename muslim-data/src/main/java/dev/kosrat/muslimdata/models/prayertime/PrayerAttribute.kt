@@ -64,3 +64,14 @@ enum class TimeFormat {
     TIME_24, // 24-hour format
     TIME_12, // 12-hour format
 }
+
+/**
+ * Languages that available for muslim data.
+ */
+enum class Language(val value: String) {
+    EN("en"),
+    AR("ar"),
+    CKB("ckb"),
+    FA("fa"),
+    RU("ru")
+}
