@@ -16,46 +16,46 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             val repository = MuslimRepository(this@MainActivity)
-            val search = repository.searchCity("erb")
-            Log.i("search", "$search")
+            val locationList = repository.searchLocation("erb")
+            Log.i("searchLocation", "$locationList")
 
-            val geoCoder = repository.reverseGeoCoder("iq", "erbil")
-            Log.i("geoCoder", "$geoCoder")
+            val location = repository.geocoder("iq", "erbil")
+            Log.i("geocoder", "$location")
 
-            val geoCoderLocation = repository.reverseGeoCoder(36.0901, 43.0930)
-            Log.i("geoCoderLocation", "$geoCoderLocation")
+            val location2 = repository.reverseGeocoder(36.0901, 43.0930)
+            Log.i("reverseGeocoder", "$location2")
 
             val attribute = PrayerAttribute(
                 CalculationMethod.MAKKAH,
                 AsrMethod.SHAFII,
                 HigherLatitudeMethod.ANGLE_BASED,
-                intArrayOf(1, 1, 1, 1, 1, 1)
+                intArrayOf(0, 0, 0, 0, 0, 0)
             )
             val prayerTime = repository.getPrayerTimes(
-                geoCoder,
+                location,
                 Date(),
                 attribute
             )
             Log.i("Prayer times ", "$prayerTime")
             Log.i(
-                "Prayer times format ",
+                "formatPrayerTime ",
                 prayerTime.formatPrayerTime(TimeFormat.TIME_12).contentToString()
             )
-            Log.i("Next prayer index", "${prayerTime.nextPrayerTimeIndex()}")
-            Log.i("Next prayer interval", "${prayerTime.nextPrayerTimeInterval()}")
-            Log.i("Next prayer remaining", prayerTime.nextPrayerTimeRemaining())
+            Log.i("nextPrayerTimeIndex", "${prayerTime.nextPrayerTimeIndex()}")
+            Log.i("nextPrayerTimeInterval", "${prayerTime.nextPrayerTimeInterval()}")
+            Log.i("nextPrayerTimeRemaining", prayerTime.nextPrayerTimeRemaining())
+
+            val azkarCategories = repository.getAzkarCategories("en")
+            Log.i("azkarCategories", "$azkarCategories")
+
+            val azkarChapters = repository.getAzkarChapters("en", 1)
+            Log.i("azkarChapters", "$azkarChapters")
+
+            val azkarItems = repository.getAzkarItems(1, "en")
+            Log.i("azkarItems", "$azkarItems")
 
             val names = repository.getNamesOfAllah("en")
             Log.i("Names", "$names")
-
-            val azkarCategory = repository.getAzkarCategories("en")
-            Log.i("azkar category", "$azkarCategory")
-
-            val azkarChapters = repository.getAzkarChapters("en")
-            Log.i("azkar chapters", "$azkarChapters")
-
-            val azkarItems = repository.getAzkarItems(1, "en")
-            Log.i("azkar items", "$azkarItems")
         }
     }
 }

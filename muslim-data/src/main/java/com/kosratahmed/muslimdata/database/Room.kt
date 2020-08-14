@@ -16,23 +16,44 @@ internal interface MuslimDataDao {
      * Search for cities in the database that match or like the provided city name.
      */
     @Transaction
-    @Query("SELECT * FROM city WHERE city_name LIKE :city")
-    fun searchCity(city: String): List<CountryAndCity>
+    @Query(
+        "SELECT city.country_code as countryCode, country_name as countryName, " +
+                "city_name as cityName, latitude, longitude, " +
+                "has_fixed_prayer_time AS hasFixedPrayerTime " +
+                "FROM city " +
+                "INNER JOIN country on city.country_code = country.country_code " +
+                "WHERE city_name like :city"
+    )
+    fun searchLocation(city: String): List<Location>
 
     /**
-     * Get user's location information based on the provided country code and city name in the
-     * database.
+     * Get location information based on the provided country code and city name in the database.
      */
     @Transaction
-    @Query("SELECT * FROM city WHERE country_code = :countryCode COLLATE NOCASE and city_name = :city COLLATE NOCASE")
-    fun geoCoder(countryCode: String, city: String): CountryAndCity
+    @Query(
+        "SELECT city.country_code as countryCode, country_name as countryName, " +
+                "city_name as cityName, latitude, longitude, " +
+                "has_fixed_prayer_time AS hasFixedPrayerTime " +
+                "FROM city " +
+                "INNER JOIN country on city.country_code = country.country_code " +
+                "WHERE city.country_code= :countryCode  COLLATE NOCASE " +
+                "and city_name= :city COLLATE NOCASE"
+    )
+    fun geocoder(countryCode: String, city: String): Location
 
     /**
-     * Get user's location information based on the provided latitude and longitude in the database.
+     * Get location information based on the provided latitude and longitude in the database.
      */
     @Transaction
-    @Query("SELECT * FROM city ORDER BY abs(latitude - :latitude) + abs(longitude - :longitude) LIMIT 1")
-    fun geoCoder(latitude: Double, longitude: Double): CountryAndCity
+    @Query(
+        "SELECT city.country_code as countryCode, country_name as countryName, " +
+                "city_name as cityName, latitude, longitude, " +
+                "has_fixed_prayer_time AS hasFixedPrayerTime " +
+                "FROM city " +
+                "INNER JOIN country on city.country_code = country.country_code " +
+                "ORDER BY abs(latitude - :latitude) + abs(longitude - :longitude) LIMIT 1"
+    )
+    fun reverseGeocoder(latitude: Double, longitude: Double): Location
 
     /**
      * Get prayer times for the specified user's location and date in the database.
@@ -44,29 +65,54 @@ internal interface MuslimDataDao {
      * Get names of allah from the database for the specified language.
      */
     @Transaction
-    @Query("SELECT * FROM name_translation WHERE language = :language")
-    fun getNames(language: String): List<NameWithTranslation>
+    @Query(
+        "SELECT name.name , tr.name AS translation " +
+                "FROM name " +
+                "INNER JOIN name_translation as tr on tr.name_id = name._id " +
+                "and tr.language = :language"
+    )
+    fun getNames(language: String): List<NameOfAllah>
 
     /**
      * Get azkar categories from the database for the specified language.
      */
     @Transaction
-    @Query("SELECT * FROM azkar_category_translation WHERE language = :language")
-    fun getAzkarCategories(language: String): List<AzkarCategoryWithTranslation>
+    @Query(
+        "SELECT category._id AS categoryId, category_name AS categoryName " +
+                "FROM azkar_category AS category " +
+                "INNER JOIN azkar_category_translation as tr on tr.category_id = category._id " +
+                "WHERE language = :language"
+    )
+    fun getAzkarCategories(language: String): List<AzkarCategory>
 
     /**
      * Get azkar chapters from the database for the specified language.
      */
     @Transaction
-    @Query("SELECT * FROM azkar_chapter_translation WHERE language = :language")
-    fun getAzkarChapters(language: String): List<AzkarChapterWithTranslation>
+    @Query(
+        "SELECT chapter._id AS chapterId, category_id AS categoryId, " +
+                "chapter_name AS chapterName " +
+                "FROM azkar_chapter AS chapter " +
+                "INNER JOIN azkar_chapter_translation as tr on tr.chapter_id = chapter._id " +
+                "WHERE language = :language and (:categoryId = -1 OR category_id = :categoryId)"
+    )
+    fun getAzkarChapters(language: String, categoryId: Long): List<AzkarChapter>
 
     /**
      * Get azkar items from the database for the specified chapter id and language.
      */
     @Transaction
-    @Query("SELECT * FROM azkar_item_view WHERE chapterId = :chapterId AND language = :language")
-    fun getAzkarItems(chapterId: Int, language: String): List<AzkarItemView>
+    @Query(
+        "SELECT item._id AS itemId, item.chapter_id AS chapterId, tr.language, item.item, " +
+                "tr.item_translation AS translation, rtr.reference " +
+                "FROM azkar_item as item " +
+                "INNER JOIN azkar_item_translation AS tr ON tr.item_id = item._id " +
+                "INNER JOIN azkar_reference AS ref ON ref.item_id = item._id " +
+                "INNER JOIN azkar_reference_translation AS rtr ON rtr.reference_id = ref._id AND " +
+                "rtr.language = tr.language " +
+                "WHERE chapterId = :chapterId AND tr.language = :language"
+    )
+    fun getAzkarItems(chapterId: Int, language: String): List<AzkarItem>
 }
 
 /**
@@ -74,21 +120,20 @@ internal interface MuslimDataDao {
  */
 @Database(
     entities = [
-        Country::class,
-        City::class,
+        CountryTable::class,
+        CityTable::class,
         FixedPrayerTime::class,
-        Name::class,
-        NameTranslation::class,
-        AzkarCategoryDB::class,
-        AzkarCategoryTranslation::class,
-        AzkarChapterDB::class,
-        AzkarChapterTranslation::class,
-        AzkarItemDB::class,
-        AzkarItemTranslation::class,
-        AzkarReference::class,
-        AzkarReferenceTranslation::class
+        NameTable::class,
+        NameTranslationTable::class,
+        AzkarCategoryTable::class,
+        AzkarCategoryTranslationTable::class,
+        AzkarChapterTable::class,
+        AzkarChapterTranslationTable::class,
+        AzkarItemTable::class,
+        AzkarItemTranslationTable::class,
+        AzkarReferenceTable::class,
+        AzkarReferenceTranslationTable::class
     ],
-    views = [AzkarItemView::class],
     version = 1
 )
 abstract class MuslimDataDatabase : RoomDatabase() {

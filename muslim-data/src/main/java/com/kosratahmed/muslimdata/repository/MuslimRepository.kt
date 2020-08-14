@@ -4,11 +4,7 @@ import android.content.Context
 import com.kosratahmed.muslimdata.database.MuslimDataDatabase
 import com.kosratahmed.muslimdata.extensions.formatToDBDate
 import com.kosratahmed.muslimdata.extensions.toDate
-import com.kosratahmed.muslimdata.models.NameOfAllah
-import com.kosratahmed.muslimdata.models.UserLocation
-import com.kosratahmed.muslimdata.models.azkars.AzkarCategory
-import com.kosratahmed.muslimdata.models.azkars.AzkarChapter
-import com.kosratahmed.muslimdata.models.azkars.AzkarItem
+import com.kosratahmed.muslimdata.models.Location
 import com.kosratahmed.muslimdata.models.prayertime.CalculatedPrayerTime
 import com.kosratahmed.muslimdata.models.prayertime.PrayerAttribute
 import com.kosratahmed.muslimdata.models.prayertime.PrayerTime
@@ -23,29 +19,29 @@ class MuslimRepository(context: Context) {
      * Search for cities in the database by city name and it will return a list of UserLocation
      * object.
      */
-    suspend fun searchCity(city: String) = withContext(Dispatchers.IO) {
-        UserLocation.mapDBLocations(muslimDb.muslimDataDao.searchCity("$city%"))
+    suspend fun searchLocation(city: String) = withContext(Dispatchers.IO) {
+        muslimDb.muslimDataDao.searchLocation("$city%")
     }
 
     /**
-     * Geocoding user's location information based on the provided country code and city name.
+     * Geocoding location information based on the provided country code and city name.
      */
-    suspend fun geoCoder(countryCode: String, city: String) = withContext(Dispatchers.IO) {
-        UserLocation.mapDBLocation(muslimDb.muslimDataDao.geoCoder(countryCode, city))
+    suspend fun geocoder(countryCode: String, city: String) = withContext(Dispatchers.IO) {
+        muslimDb.muslimDataDao.geocoder(countryCode, city)
     }
 
     /**
-     * Reverse geocoding user's location information based on the provided latitude and longitude.
+     * Reverse geocoding location information based on the provided latitude and longitude.
      */
-    suspend fun reverseGeoCoder(latitude: Double, longitude: Double) = withContext(Dispatchers.IO) {
-        UserLocation.mapDBLocation(muslimDb.muslimDataDao.geoCoder(latitude, longitude))
+    suspend fun reverseGeocoder(latitude: Double, longitude: Double) = withContext(Dispatchers.IO) {
+        muslimDb.muslimDataDao.reverseGeocoder(latitude, longitude)
     }
 
     /**
      * Get prayer times for the specified location, date, and prayer attribute.
      */
     suspend fun getPrayerTimes(
-        location: UserLocation,
+        location: Location,
         date: Date,
         attribute: PrayerAttribute
     ) = withContext(Dispatchers.IO) {
@@ -76,27 +72,28 @@ class MuslimRepository(context: Context) {
      * Get names of allah for the specified language.
      */
     suspend fun getNamesOfAllah(language: String) = withContext(Dispatchers.IO) {
-        NameOfAllah.mapDBNames(muslimDb.muslimDataDao.getNames(language))
+        muslimDb.muslimDataDao.getNames(language)
     }
 
     /**
      * Get azkar categories for the specified language.
      */
     suspend fun getAzkarCategories(language: String) = withContext(Dispatchers.IO) {
-        AzkarCategory.mapDBAzkarCategories(muslimDb.muslimDataDao.getAzkarCategories(language))
+        muslimDb.muslimDataDao.getAzkarCategories(language)
     }
 
     /**
      * Get azkar chapters for the specified language.
      */
-    suspend fun getAzkarChapters(language: String) = withContext(Dispatchers.IO) {
-        AzkarChapter.mapDBAzkarChapters(muslimDb.muslimDataDao.getAzkarChapters(language))
-    }
+    suspend fun getAzkarChapters(language: String, categoryId: Long = -1) =
+        withContext(Dispatchers.IO) {
+            muslimDb.muslimDataDao.getAzkarChapters(language, categoryId)
+        }
 
     /**
      * Get azkar items for the specified azkar chapter id and language.
      */
     suspend fun getAzkarItems(chapterId: Int, language: String) = withContext(Dispatchers.IO) {
-        AzkarItem.mapDBAzkarItems(muslimDb.muslimDataDao.getAzkarItems(chapterId, language))
+        muslimDb.muslimDataDao.getAzkarItems(chapterId, language)
     }
 }

@@ -9,46 +9,32 @@ import java.util.*
 /**
  * Prayer time class that holds all prayer times for a day.
  */
-class PrayerTime internal constructor(
-    fajr: Date,
-    sunrise: Date,
-    dhuhr: Date,
-    asr: Date,
-    maghrib: Date,
-    isha: Date
+data class PrayerTime internal constructor(
+    private var _fajr: Date,
+    private var _sunrise: Date,
+    private var _dhuhr: Date,
+    private var _asr: Date,
+    private var _maghrib: Date,
+    private var _isha: Date
 ) {
-    var fajr: Date
-        private set
-    var sunrise: Date
-        private set
-    var dhuhr: Date
-        private set
-    var asr: Date
-        private set
-    var maghrib: Date
-        private set
-    var isha: Date
-        private set
 
-    init {
-        this.fajr = fajr
-        this.sunrise = sunrise
-        this.dhuhr = dhuhr
-        this.asr = asr
-        this.maghrib = maghrib
-        this.isha = isha
-    }
+    val fajr: Date get() = _fajr
+    val sunrise: Date get() = _sunrise
+    val dhuhr: Date get() = _dhuhr
+    val asr: Date get() = _asr
+    val maghrib: Date get() = _maghrib
+    val isha: Date get() = _isha
 
     /**
      * Apply the given offset on the prayer times.
      */
     internal fun applyOffset(offsets: IntArray) {
-        fajr = fajr.addMinutes(offsets[0])
-        sunrise = sunrise.addMinutes(offsets[1])
-        dhuhr = dhuhr.addMinutes(offsets[2])
-        asr = asr.addMinutes(offsets[3])
-        maghrib = maghrib.addMinutes(offsets[4])
-        isha = isha.addMinutes(offsets[5])
+        _fajr = _fajr.addMinutes(offsets[0])
+        _sunrise = _sunrise.addMinutes(offsets[1])
+        _dhuhr = _dhuhr.addMinutes(offsets[2])
+        _asr = _asr.addMinutes(offsets[3])
+        _maghrib = _maghrib.addMinutes(offsets[4])
+        _isha = _isha.addMinutes(offsets[5])
     }
 
     /**
@@ -58,12 +44,12 @@ class PrayerTime internal constructor(
         val timeZone = TimeZone.getDefault()
 
         if (timeZone.inDaylightTime(Date())) {
-            fajr = fajr.addHours(1)
-            sunrise = sunrise.addHours(1)
-            dhuhr = dhuhr.addHours(1)
-            asr = asr.addHours(1)
-            maghrib = maghrib.addHours(1)
-            isha = isha.addHours(1)
+            _fajr = _fajr.addHours(1)
+            _sunrise = _sunrise.addHours(1)
+            _dhuhr = _dhuhr.addHours(1)
+            _asr = _asr.addHours(1)
+            _maghrib = _maghrib.addHours(1)
+            _isha = _isha.addHours(1)
         }
     }
 
@@ -73,12 +59,12 @@ class PrayerTime internal constructor(
      */
     fun formatPrayerTime(format: TimeFormat = TimeFormat.TIME_24): Array<String> {
         return arrayOf(
-            fajr.format(format),
-            sunrise.format(format),
-            dhuhr.format(format),
-            asr.format(format),
-            maghrib.format(format),
-            isha.format(format)
+            _fajr.format(format),
+            _sunrise.format(format),
+            _dhuhr.format(format),
+            _asr.format(format),
+            _maghrib.format(format),
+            _isha.format(format)
         )
     }
 
@@ -86,7 +72,7 @@ class PrayerTime internal constructor(
      * Find and return next prayer time index.
      */
     fun nextPrayerTimeIndex(): Int {
-        val prayers = arrayOf(fajr, sunrise, dhuhr, asr, maghrib, isha)
+        val prayers = arrayOf(_fajr, _sunrise, _dhuhr, _asr, _maghrib, _isha)
         val now = Date()
         prayers.forEachIndexed { index, date ->
             if (date.after(now)) {
@@ -100,11 +86,11 @@ class PrayerTime internal constructor(
      * Find and return the next prayer time interval.
      */
     fun nextPrayerTimeInterval(): Long {
-        val prayers = arrayOf(fajr, sunrise, dhuhr, asr, maghrib, isha)
+        val prayers = arrayOf(_fajr, _sunrise, _dhuhr, _asr, _maghrib, _isha)
         val index = nextPrayerTimeIndex()
 
         if (index == -1) {
-            return fajr.addDays(1).time - Date().time
+            return _fajr.addDays(1).time - Date().time
         }
 
         return prayers[index].time - Date().time
@@ -122,5 +108,9 @@ class PrayerTime internal constructor(
         val second = time / 1000
 
         return String.format("%02d:%02d:%02d", hour, minute, second)
+    }
+
+    override fun toString(): String {
+        return "PrayerTime(fajr=$fajr, sunrise=$sunrise, dhuhr=$dhuhr, asr=$asr, maghrib=$maghrib, ish=$isha)"
     }
 }
