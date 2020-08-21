@@ -5,7 +5,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-version = "1.0"
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -47,17 +46,15 @@ dependencies {
 }
 
 ext {
-    // This should be same as you've created in bintray
     bintrayRepo = 'muslim-data'
-
-    // Name which will be visible on bintray
-    bintrayName = 'muslim-data'
+    bintrayName = 'dev.kosrat.muslimdata'
 
     // Library Details
-    publishedGroupId = 'dev.kosrat'
+    publishedGroupId = 'dev.kosrat.muslimdata'
     libraryName = 'muslim-data'
-    artifact = 'mulsim-data'
-    libraryDescription = 'Muslim Data'
+    artifact = 'mulsimdata'
+
+    libraryDescription = 'MuslimData is an Islamic Database that provides Prayer Times (fixed and calculated), Offline Geocoding, Location Search, Azkars (Hisnul Muslim) and 99 Names of Allah.'
     libraryVersion = version
 
     // Repository Link (For e.g. GitHub repo)
@@ -66,7 +63,7 @@ ext {
     githubRepository= 'KosratDAhmad/muslim-data-android'
 
     // Developer Details
-    developerId = 'KosratDAhmad'
+    developerId = 'kosrat'
     developerName = 'Kosrat Ahmed'
     developerEmail = 'kosrat.d.ahmad@gmail.com'
 
@@ -76,7 +73,7 @@ ext {
     allLicenses = ["MIT"]
 }
 
-// This is mandatory
+version = libraryVersion
 group = publishedGroupId
 
 install {
@@ -85,11 +82,11 @@ install {
         pom {
             project {
                 packaging 'aar'
-
                 groupId publishedGroupId
                 artifactId = artifact
+
                 name libraryName
-                description = libraryDescription
+                description libraryDescription
                 url siteUrl
 
                 licenses {
@@ -149,9 +146,11 @@ bintray {
     pkg {
         repo = bintrayRepo
         name = bintrayName
+        desc = libraryDescription
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = allLicenses
         publish = true
+        publicDownloadNumbers = true
     }
 }
