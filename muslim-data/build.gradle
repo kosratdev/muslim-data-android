@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
+apply from: './git-version.gradle'
 
 android {
     compileSdkVersion 30
@@ -55,7 +56,7 @@ ext {
     artifact = 'mulsimdata'
 
     libraryDescription = 'MuslimData is an Islamic Database that provides Prayer Times (fixed and calculated), Offline Geocoding, Location Search, Azkars (Hisnul Muslim) and 99 Names of Allah.'
-    libraryVersion = version
+    libraryVersion = gitVersionName
 
     // Repository Link (For e.g. GitHub repo)
     siteUrl = 'https://github.com/KosratDAhmad/muslim-data-android'
