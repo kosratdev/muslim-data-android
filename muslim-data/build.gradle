@@ -56,7 +56,7 @@ ext {
     artifact = 'mulsimdata'
 
     libraryDescription = 'MuslimData is an Islamic Database that provides Prayer Times (fixed and calculated), Offline Geocoding, Location Search, Azkars (Hisnul Muslim) and 99 Names of Allah.'
-    libraryVersion = gitVersionName
+    libraryVersion = gitVersionName.toLowerCase().replaceAll("v","")
 
     // Repository Link (For e.g. GitHub repo)
     siteUrl = 'https://github.com/KosratDAhmad/muslim-data-android'

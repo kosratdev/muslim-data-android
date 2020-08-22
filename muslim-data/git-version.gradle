@@ -25,5 +25,5 @@ ext {
 }
 
 task printVersion() {
-    println("Version Name: $gitVersionName")
+    println("Version Name: ${gitVersionName.toLowerCase().replaceAll("v","")}")
 }
