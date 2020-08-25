@@ -1,13 +1,9 @@
-package dev.kosrat.muslimdata.models.azkars
+package dev.kosrat.muslimdata.database.tables.azkars
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-/**
- * Azkar Category class.
- */
-data class AzkarCategory internal constructor(val categoryId: Long, val categoryName: String)
 
 /**
  * Azkar category table class that will be used as azkar_category table.

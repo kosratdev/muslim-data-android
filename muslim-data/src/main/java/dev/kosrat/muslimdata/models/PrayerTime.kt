@@ -1,4 +1,4 @@
-package dev.kosrat.muslimdata.models.prayertime
+package dev.kosrat.muslimdata.models
 
 import dev.kosrat.muslimdata.extensions.addDays
 import dev.kosrat.muslimdata.extensions.addHours

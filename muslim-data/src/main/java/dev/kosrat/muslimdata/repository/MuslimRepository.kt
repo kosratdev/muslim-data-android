@@ -2,17 +2,10 @@ package dev.kosrat.muslimdata.repository
 
 import android.content.Context
 import dev.kosrat.muslimdata.database.MuslimDataDatabase
+import dev.kosrat.muslimdata.database.tables.prayertimes.CalculatedPrayerTime
 import dev.kosrat.muslimdata.extensions.formatToDBDate
 import dev.kosrat.muslimdata.extensions.toDate
-import dev.kosrat.muslimdata.models.Location
-import dev.kosrat.muslimdata.models.NameOfAllah
-import dev.kosrat.muslimdata.models.azkars.AzkarCategory
-import dev.kosrat.muslimdata.models.azkars.AzkarChapter
-import dev.kosrat.muslimdata.models.azkars.AzkarItem
-import dev.kosrat.muslimdata.models.prayertime.CalculatedPrayerTime
-import dev.kosrat.muslimdata.models.prayertime.Language
-import dev.kosrat.muslimdata.models.prayertime.PrayerAttribute
-import dev.kosrat.muslimdata.models.prayertime.PrayerTime
+import dev.kosrat.muslimdata.models.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*

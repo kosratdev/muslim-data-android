@@ -2,9 +2,13 @@ package dev.kosrat.muslimdata.database
 
 import android.content.Context
 import androidx.room.*
+import dev.kosrat.muslimdata.database.tables.CityTable
+import dev.kosrat.muslimdata.database.tables.CountryTable
+import dev.kosrat.muslimdata.database.tables.NameTable
+import dev.kosrat.muslimdata.database.tables.NameTranslationTable
+import dev.kosrat.muslimdata.database.tables.azkars.*
+import dev.kosrat.muslimdata.database.tables.prayertimes.FixedPrayerTime
 import dev.kosrat.muslimdata.models.*
-import dev.kosrat.muslimdata.models.azkars.*
-import dev.kosrat.muslimdata.models.prayertime.FixedPrayerTime
 
 /**
  * Data access object interface class for MuslimData database that holds queries which is
@@ -66,7 +70,7 @@ internal interface MuslimDataDao {
      */
     @Transaction
     @Query(
-        "SELECT name.name , tr.name AS translation " +
+        "SELECT name._id AS number, name.name , tr.name AS translation " +
                 "FROM name " +
                 "INNER JOIN name_translation as tr on tr.name_id = name._id " +
                 "and tr.language = :language"

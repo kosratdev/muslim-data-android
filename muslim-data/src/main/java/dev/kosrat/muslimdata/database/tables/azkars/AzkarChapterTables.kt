@@ -1,18 +1,9 @@
-package dev.kosrat.muslimdata.models.azkars
+package dev.kosrat.muslimdata.database.tables.azkars
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-/**
- * Azkar Chapter class that holds azkar chapter information such as (chapterId, categoryId, and
- * chapterName).
- */
-data class AzkarChapter internal constructor(
-    val chapterId: Long,
-    val categoryId: Long,
-    val chapterName: String
-)
 
 /**
  * Azkar chapter table class that will be used as azkar_chapter table.
