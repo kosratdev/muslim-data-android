@@ -70,7 +70,7 @@ internal interface MuslimDataDao {
      */
     @Transaction
     @Query(
-        "SELECT name.name , tr.name AS translation " +
+        "SELECT name._id AS number, name.name , tr.name AS translation " +
                 "FROM name " +
                 "INNER JOIN name_translation as tr on tr.name_id = name._id " +
                 "and tr.language = :language"
