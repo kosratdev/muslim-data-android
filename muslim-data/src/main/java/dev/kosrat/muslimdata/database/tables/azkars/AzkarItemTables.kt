@@ -1,20 +1,9 @@
-package dev.kosrat.muslimdata.models.azkars
+package dev.kosrat.muslimdata.database.tables.azkars
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-/**
- * Azkar Item class that holds azkar item information such as (item, translation, and reference).
- */
-data class AzkarItem internal constructor(
-    val itemId: Long,
-    val chapterId: Long,
-    val language: String,
-    val item: String,
-    val translation: String,
-    val reference: String
-)
 
 /**
  * Azkar item table class that will be used as azkar_item table.

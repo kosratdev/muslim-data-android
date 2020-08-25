@@ -1,4 +1,5 @@
-# muslim-data-android
+muslim-data-android
+===================
 
 MuslimData is an Islamic Database that provides Prayer Times (fixed and calculated), Offline Geocoding, Location Search, Azkars (Hisnul Muslim) and 99 Names of Allah.
 
@@ -6,7 +7,9 @@ MuslimData is an Islamic Database that provides Prayer Times (fixed and calculat
 Most cities around the world find their prayer times by using some calculations which is based on location (longitude and latitude) but some other cities have fixed time table for their prayer times. This library contains most fixed and calculated prayer times. Now you can contribute it to improve it and also you can use it in Muslim communities or Muslim apps.
 
 ## Installation
-*Not published yet! it is under developing.*
+```
+implementation 'dev.kosrat.muslimdata:muslimdata:0.2'
+```
 
 ## Usage
 

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import dev.kosrat.muslimdata.models.prayertime.*
+import dev.kosrat.muslimdata.models.*
 import dev.kosrat.muslimdata.repository.MuslimRepository
 import kotlinx.coroutines.launch
 import java.util.*

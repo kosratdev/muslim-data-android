@@ -1,4 +1,4 @@
-package dev.kosrat.muslimdata.models.prayertime
+package dev.kosrat.muslimdata.models
 
 /**
  * Prayer attribute that holds all information to create prayer times object.

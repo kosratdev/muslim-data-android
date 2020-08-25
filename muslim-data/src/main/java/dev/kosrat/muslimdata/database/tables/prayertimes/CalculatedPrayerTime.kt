@@ -1,7 +1,7 @@
-package dev.kosrat.muslimdata.models.prayertime
+package dev.kosrat.muslimdata.database.tables.prayertimes
 
 import dev.kosrat.muslimdata.extensions.toDate
-import dev.kosrat.muslimdata.models.Location
+import dev.kosrat.muslimdata.models.*
 import java.util.*
 import kotlin.math.*
 

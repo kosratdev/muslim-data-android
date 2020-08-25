@@ -1,6 +1,6 @@
 package dev.kosrat.muslimdata.extensions
 
-import dev.kosrat.muslimdata.models.prayertime.TimeFormat
+import dev.kosrat.muslimdata.models.TimeFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
