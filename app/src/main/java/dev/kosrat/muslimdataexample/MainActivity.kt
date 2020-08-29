@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             val azkarCategories = repository.getAzkarCategories(Language.EN)
             Log.i("azkarCategories", "$azkarCategories")
 
-            val azkarChapters = repository.getAzkarChapters(1, Language.EN)
+            val azkarChapters = repository.getAzkarChapters(Language.EN, 1)
             Log.i("azkarChapters", "$azkarChapters")
 
             val azkarItems = repository.getAzkarItems(1, Language.EN)

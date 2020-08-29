@@ -95,7 +95,7 @@ class MuslimRepository(context: Context) {
     /**
      * Get azkar chapters for the specified language.
      */
-    suspend fun getAzkarChapters(categoryId: Long = -1, language: Language): List<AzkarChapter>? {
+    suspend fun getAzkarChapters(language: Language, categoryId: Long = -1): List<AzkarChapter>? {
         return withContext(Dispatchers.IO) {
             muslimDb.muslimDataDao.getAzkarChapters(language.value, categoryId)
         }

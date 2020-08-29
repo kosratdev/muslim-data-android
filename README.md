@@ -8,7 +8,7 @@ Most cities around the world find their prayer times by using some calculations 
 
 ## Installation
 ```
-implementation 'dev.kosrat.muslimdata:muslimdata:0.3'
+implementation 'dev.kosrat.muslimdata:muslimdata:0.4'
 ```
 
 ## Usage
@@ -116,7 +116,7 @@ Get azkar chapters for a specific category and it is localized for the given lan
 ```kotlin
 lifecycleScope.launch {
     val repository = MuslimRepository(this@MainActivity)
-    val azkarChapters = repository.getAzkarChapters(1, Language.EN)
+    val azkarChapters = repository.getAzkarChapters(Language.EN, 1)
     Log.i("azkarChapters", "$azkarChapters")
 }
 ```
