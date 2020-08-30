@@ -100,7 +100,7 @@ internal interface MuslimDataDao {
                 "INNER JOIN azkar_chapter_translation as tr on tr.chapter_id = chapter._id " +
                 "WHERE language = :language and (:categoryId = -1 OR category_id = :categoryId)"
     )
-    fun getAzkarChapters(language: String, categoryId: Long): List<AzkarChapter>?
+    fun getAzkarChapters(language: String, categoryId: Int): List<AzkarChapter>?
 
     /**
      * Get azkar items from the database for the specified chapter id and language.
