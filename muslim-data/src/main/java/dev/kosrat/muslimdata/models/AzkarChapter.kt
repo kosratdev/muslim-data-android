@@ -5,7 +5,7 @@ package dev.kosrat.muslimdata.models
  * chapterName).
  */
 data class AzkarChapter internal constructor(
-    val chapterId: Long,
-    val categoryId: Long,
+    val chapterId: Int,
+    val categoryId: Int,
     val chapterName: String
 )
