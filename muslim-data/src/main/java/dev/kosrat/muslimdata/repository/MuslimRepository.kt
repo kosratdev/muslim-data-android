@@ -58,12 +58,12 @@ class MuslimRepository(context: Context) {
                     date.formatToDBDate()
                 )
                 prayerTime = PrayerTime(
-                    fixedPrayer.fajr.toDate(),
-                    fixedPrayer.sunrise.toDate(),
-                    fixedPrayer.dhuhr.toDate(),
-                    fixedPrayer.asr.toDate(),
-                    fixedPrayer.maghrib.toDate(),
-                    fixedPrayer.isha.toDate()
+                    fixedPrayer.fajr.toDate(date),
+                    fixedPrayer.sunrise.toDate(date),
+                    fixedPrayer.dhuhr.toDate(date),
+                    fixedPrayer.asr.toDate(date),
+                    fixedPrayer.maghrib.toDate(date),
+                    fixedPrayer.isha.toDate(date)
                 )
                 prayerTime.adjustDST()
             } else {

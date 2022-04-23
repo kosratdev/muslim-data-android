@@ -157,12 +157,12 @@ internal class CalculatedPrayerTime(private val attribute: PrayerAttribute) {
 
         val cTime = computeDayTimes()
         return PrayerTime(
-            cTime[0].toDate(),
-            cTime[1].toDate(),
-            cTime[2].toDate(),
-            cTime[3].toDate(),
-            cTime[4].toDate(),
-            cTime[5].toDate()
+            cTime[0].toDate(date),
+            cTime[1].toDate(date),
+            cTime[2].toDate(date),
+            cTime[3].toDate(date),
+            cTime[4].toDate(date),
+            cTime[5].toDate(date)
         )
     }
 
