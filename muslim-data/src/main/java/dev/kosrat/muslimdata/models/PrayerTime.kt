@@ -110,7 +110,16 @@ data class PrayerTime internal constructor(
         return String.format("%02d:%02d:%02d", hour, minute, second)
     }
 
+    operator fun get(i: Int): Date {
+        val prayers = arrayOf(_fajr, _sunrise, _dhuhr, _asr, _maghrib, _isha)
+        return if (i < 0) {
+            prayers[5]
+        } else {
+            prayers[i]
+        }
+    }
+
     override fun toString(): String {
-        return "PrayerTime(fajr=$fajr, sunrise=$sunrise, dhuhr=$dhuhr, asr=$asr, maghrib=$maghrib, ish=$isha)"
+        return "PrayerTime(fajr=$_fajr, sunrise=$_sunrise, dhuhr=$_dhuhr, asr=$_asr, maghrib=$_maghrib, ish=$_isha)"
     }
 }

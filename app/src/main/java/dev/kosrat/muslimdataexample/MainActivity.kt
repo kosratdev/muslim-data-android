@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
                 attribute
             )
             Log.i("Prayer times ", "$prayerTime")
+            Log.i("Prayer Times ", "prayerTime[0]:${prayerTime[0]}")
             Log.i(
                 "formatPrayerTime ",
                 prayerTime.formatPrayerTime(TimeFormat.TIME_12).contentToString()
