@@ -93,11 +93,20 @@ class MuslimRepository(context: Context) {
     }
 
     /**
-     * Get azkar chapters for the specified language.
+     * Get azkar chapters for the specified language and category id.
      */
     suspend fun getAzkarChapters(language: Language, categoryId: Int = -1): List<AzkarChapter>? {
         return withContext(Dispatchers.IO) {
             muslimDb.muslimDataDao.getAzkarChapters(language.value, categoryId)
+        }
+    }
+
+    /**
+     * Get azkar chapters for the specified language and chapter ids.
+     */
+    suspend fun getAzkarChapters(language: Language, azkarIds: Array<Int>): List<AzkarChapter>? {
+        return withContext(Dispatchers.IO) {
+            muslimDb.muslimDataDao.getAzkarChapters(language.value, azkarIds)
         }
     }
 
