@@ -1,19 +1,22 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+
+ext {
+    // Provide your own coordinates here
+    PUBLISH_GROUP_ID = 'dev.kosrat'
+    gitVersionName = ['sh', '-c', 'git describe --tags $(git rev-list --tags --max-count=1) " "'].execute().text.trim()
+    PUBLISH_VERSION = gitVersionName.toLowerCase().replaceAll("v","")
+    PUBLISH_ARTIFACT_ID = 'muslimdata'
+}
+apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.1"
+    compileSdkVersion 32
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 32
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -25,13 +28,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildFeatures {
+        dataBinding = true
+    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.core:core-ktx:$androidx_version"
 
     // Androidx
@@ -40,118 +46,7 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
 
     // Tests
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-}
-
-ext {
-    bintrayRepo = 'muslim-data'
-    bintrayName = 'dev.kosrat.muslimdata'
-
-    // Library Details
-    publishedGroupId = 'dev.kosrat.muslimdata'
-    libraryName = 'muslim-data'
-    artifact = 'muslimdata'
-
-    libraryDescription = 'MuslimData is an Islamic Database that provides Prayer Times (fixed and calculated), Offline Geocoding, Location Search, Azkars (Hisnul Muslim) and 99 Names of Allah.'
-    gitVersionName = ['sh', '-c', 'git describe --tags $(git rev-list --tags --max-count=1) " "'].execute().text.trim()
-    libraryVersion = gitVersionName.toLowerCase().replaceAll("v","")
-
-    // Repository Link (For e.g. GitHub repo)
-    siteUrl = 'https://github.com/KosratDAhmad/muslim-data-android'
-    gitUrl = 'https://github.com/KosratDAhmad/muslim-data-android.git'
-    githubRepository= 'KosratDAhmad/muslim-data-android'
-
-    // Developer Details
-    developerId = 'kosrat'
-    developerName = 'Kosrat Ahmed'
-    developerEmail = 'kosrat.d.ahmad@gmail.com'
-
-    // License Details
-    licenseName = 'MIT License'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["MIT"]
-}
-
-version = libraryVersion
-group = publishedGroupId
-
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-                groupId publishedGroupId
-                artifactId = artifact
-
-                name libraryName
-                description libraryDescription
-                url siteUrl
-
-                licenses {
-                    license {
-                        name licenseName
-                        url licenseUrl
-                    }
-                }
-                developers {
-                    developer {
-                        id developerId
-                        name developerName
-                        email developerEmail
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-                }
-            }
-        }
-    }
-}
-
-// Avoid Kotlin docs error
-tasks.withType(Javadoc) {
-    enabled = false
-}
-
-// Remove javadoc related tasks
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-// https://github.com/bintray/gradle-bintray-plugin
-bintray {
-    user = System.getenv("bintrayUser")
-    key = System.getenv("bintrayApiKey")
-
-    configurations = ['archives']
-    pkg {
-        repo = bintrayRepo
-        name = bintrayName
-        desc = libraryDescription
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = allLicenses
-        publish = true
-        publicDownloadNumbers = true
-    }
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }

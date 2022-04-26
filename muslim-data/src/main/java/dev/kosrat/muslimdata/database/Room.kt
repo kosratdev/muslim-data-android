@@ -90,7 +90,7 @@ internal interface MuslimDataDao {
     fun getAzkarCategories(language: String): List<AzkarCategory>
 
     /**
-     * Get azkar chapters from the database for the specified language.
+     * Get azkar chapters from the database for the specified language and category id.
      */
     @Transaction
     @Query(
@@ -101,6 +101,19 @@ internal interface MuslimDataDao {
                 "WHERE language = :language and (:categoryId = -1 OR category_id = :categoryId)"
     )
     fun getAzkarChapters(language: String, categoryId: Int): List<AzkarChapter>?
+
+    /**
+     * Get azkar chapters from the database for the specified language and chapter ids.
+     */
+    @Transaction
+    @Query(
+        "SELECT chapter._id AS chapterId, category_id AS categoryId, " +
+                "chapter_name AS chapterName " +
+                "FROM azkar_chapter AS chapter " +
+                "INNER JOIN azkar_chapter_translation as tr on tr.chapter_id = chapter._id " +
+                "WHERE language = :language and chapter._id in (:azkarIds)"
+    )
+    fun getAzkarChapters(language: String, azkarIds: Array<Int>): List<AzkarChapter>?
 
     /**
      * Get azkar items from the database for the specified chapter id and language.

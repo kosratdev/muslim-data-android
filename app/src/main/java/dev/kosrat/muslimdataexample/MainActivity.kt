@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
                 attribute
             )
             Log.i("Prayer times ", "$prayerTime")
+            Log.i("Prayer Times ", "prayerTime[0]:${prayerTime[0]}")
             Log.i(
                 "formatPrayerTime ",
                 prayerTime.formatPrayerTime(TimeFormat.TIME_12).contentToString()
@@ -50,6 +51,9 @@ class MainActivity : AppCompatActivity() {
 
             val azkarChapters = repository.getAzkarChapters(Language.EN, 1)
             Log.i("azkarChapters", "$azkarChapters")
+
+            val azkarChaptersIds = repository.getAzkarChapters(Language.EN, arrayOf(1, 2, 3))
+            Log.i("azkarChapters id", "$azkarChaptersIds")
 
             val azkarItems = repository.getAzkarItems(1, Language.EN)
             Log.i("azkarItems", "$azkarItems")

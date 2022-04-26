@@ -32,8 +32,9 @@ internal fun Date.format(format: TimeFormat): String {
 /**
  * Convert database string date to date.
  */
-internal fun String.toDate(): Date {
+internal fun String.toDate(date: Date): Date {
     val calendar = Calendar.getInstance()
+    calendar.time = date
     val hourMinute = this.split(":")
     val hour = hourMinute[0].toInt()
     val minute = hourMinute[1].toInt()
