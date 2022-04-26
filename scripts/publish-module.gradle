@@ -47,7 +47,7 @@ afterEvaluate {
                     url = 'https://github.com/kosratdev/muslim-data-android'
                     licenses {
                         license {
-                            name = 'MIT License'
+                            name = 'Apache License'
                             url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                         }
                     }
