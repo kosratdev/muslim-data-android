@@ -11,11 +11,11 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-
-        // Required plugins added to classpath to facilitate pushing to Jcenter/Bintray
-//        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-//        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
+}
+
+plugins {
+    id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
 }
 
 allprojects {
@@ -35,3 +35,5 @@ ext {
     room_version = '2.4.2'
     androidx_version = '1.7.0'
 }
+
+apply from: "${rootDir}/scripts/publish-root.gradle"
