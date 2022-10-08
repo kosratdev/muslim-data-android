@@ -46,7 +46,6 @@ class CityMapper {
                 "Galala",
                 "Choman",
                 "Hiran",
-                "Makhmur",
                 "Qushtapa",
                 "Kasnazan"
             )
