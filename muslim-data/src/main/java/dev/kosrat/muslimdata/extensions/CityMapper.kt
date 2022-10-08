@@ -57,7 +57,6 @@ class CityMapper {
             val sulaymaniyah = listOf(
                 "Dokan",
                 "Bazian",
-                "Chamchamal",
                 "Qaran Dagh",
                 "Arbat",
                 "Penjwen",
