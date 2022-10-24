@@ -8,7 +8,12 @@ class PrayerAttribute(
     val asrMethod: AsrMethod,
     val higherLatitudeMethod: HigherLatitudeMethod,
     val offset: IntArray = IntArray(6) { 0 }
-)
+) {
+
+    override fun toString(): String {
+        return "PrayerAttribute(calculationMethod=$calculationMethod, asrMethod=$asrMethod, higherLatitudeMethod=$higherLatitudeMethod, offset=${offset.contentToString()})"
+    }
+}
 
 /**
  * Prayer calculation methods.

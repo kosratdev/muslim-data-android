@@ -65,6 +65,8 @@ class CityMapper {
                 "Takiya",
                 "Shorsh"
             )
+            val chamchamal = listOf("Shorsh")
+
             return mutableMapOf(
                 "Akre" to akre,
                 "Bardarash" to bardarash,
@@ -76,7 +78,8 @@ class CityMapper {
                 "Kirkuk" to kirkuk,
                 "Koysinjaq" to koysinjaq,
                 "Qalat itoah" to qalatDizah,
-                "Sulaymaniyah" to sulaymaniyah
+                "Sulaymaniyah" to sulaymaniyah,
+                "Chamchamal" to chamchamal,
             )
         }
 
