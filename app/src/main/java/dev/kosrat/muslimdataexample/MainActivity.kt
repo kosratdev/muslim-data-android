@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             Log.i("Prayer Times ", "prayerTime[0]:${prayerTime[0]}")
             Log.i(
                 "formatPrayerTime ",
-                prayerTime.formatPrayerTime(TimeFormat.TIME_12).contentToString()
+                prayerTime.formatPrayerTime(TimeFormat.TIME_12, Locale("ckb")).contentToString()
             )
             Log.i("nextPrayerTimeIndex", "${prayerTime.nextPrayerTimeIndex()}")
             Log.i("nextPrayerTimeInterval", "${prayerTime.nextPrayerTimeInterval()}")
