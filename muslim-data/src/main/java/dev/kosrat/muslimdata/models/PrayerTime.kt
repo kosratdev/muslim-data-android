@@ -57,14 +57,14 @@ data class PrayerTime internal constructor(
      * Format prayer times by given format and the default one is 24 hours format and also it will
      * return a formatted prayer time list.
      */
-    fun formatPrayerTime(format: TimeFormat = TimeFormat.TIME_24): Array<String> {
+    fun formatPrayerTime(format: TimeFormat = TimeFormat.TIME_24, locale: Locale = Locale.ENGLISH): Array<String> {
         return arrayOf(
-            _fajr.format(format),
-            _sunrise.format(format),
-            _dhuhr.format(format),
-            _asr.format(format),
-            _maghrib.format(format),
-            _isha.format(format)
+            _fajr.format(format, locale),
+            _sunrise.format(format, locale),
+            _dhuhr.format(format, locale),
+            _asr.format(format, locale),
+            _maghrib.format(format, locale),
+            _isha.format(format, locale)
         )
     }
 

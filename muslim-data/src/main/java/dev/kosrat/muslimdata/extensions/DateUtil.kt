@@ -16,14 +16,14 @@ internal fun Date.formatToDBDate(): String {
 /**
  * Format time to be 12 or 24 time format.
  */
-internal fun Date.format(format: TimeFormat): String {
+internal fun Date.format(format: TimeFormat, locale: Locale): String {
     return when (format) {
         TimeFormat.TIME_24 -> {
-            val sdf = SimpleDateFormat("HH:mm", Locale.ENGLISH)
+            val sdf = SimpleDateFormat("HH:mm", locale)
             sdf.format(this)
         }
         TimeFormat.TIME_12 -> {
-            val sdf = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+            val sdf = SimpleDateFormat("hh:mm a", locale)
             sdf.format(this)
         }
     }
