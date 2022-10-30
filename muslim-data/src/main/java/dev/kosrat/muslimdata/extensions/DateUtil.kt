@@ -1,5 +1,6 @@
 package dev.kosrat.muslimdata.extensions
 
+import android.os.Build
 import dev.kosrat.muslimdata.models.TimeFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,13 +20,26 @@ internal fun Date.formatToDBDate(): String {
 internal fun Date.format(format: TimeFormat, locale: Locale): String {
     return when (format) {
         TimeFormat.TIME_24 -> {
-            val sdf = SimpleDateFormat("HH:mm", locale)
-            sdf.format(this)
+            formatTime24(locale)
         }
         TimeFormat.TIME_12 -> {
-            val sdf = SimpleDateFormat("hh:mm a", locale)
-            sdf.format(this)
+            formatTime12(locale)
         }
+    }
+}
+
+private fun Date.formatTime24(locale: Locale): String {
+    val sdf = SimpleDateFormat("HH:mm", locale)
+    return sdf.format(this)
+}
+
+private fun Date.formatTime12(locale: Locale): String {
+    return if (Build.VERSION.SDK_INT < 26 && locale.language == "ckb") {
+        val sdf = SimpleDateFormat("hh:mm a", Locale("ar"))
+        sdf.format(this).replace("م", "د.ن").replace("ص", "ب.ن")
+    } else {
+        val sdf = SimpleDateFormat("hh:mm a", locale)
+        sdf.format(this)
     }
 }
 
