@@ -18,6 +18,7 @@ class CityMapper {
         }
 
         private fun getIQCities(): MutableMap<String, List<String>> {
+            val duhok = listOf("Sumel", "Zawita", "Atrish", "Sharya", "Mrebah")
             val akre = listOf(
                 "Amedi",
                 "Sulav",
@@ -32,8 +33,7 @@ class CityMapper {
                 "Sersink"
             )
             val bardarash = listOf("Mamuzin")
-            val darbandikhan = listOf("Zarayan")
-            val duhok = listOf("Sumel", "Zawita", "Atrish", "Sharya", "Mrebah")
+
             val erbil = listOf(
                 "Kalak",
                 "Pirmam",
@@ -49,35 +49,62 @@ class CityMapper {
                 "Qushtapa",
                 "Kasnazan"
             )
-            val halabja = listOf("Khurmal", "Sirwan", "Byara", "Tawella")
-            val kifri = listOf("Hajiawa", "Chwarqurna", "Ranya")
+
             val kirkuk = listOf("Taza Khurmatu")
-            val koysinjaq = listOf("Taqtaq", "Khalakan")
-            val qalatDizah = listOf("Sangasar", "Zharawa")
+
             val sulaymaniyah = listOf(
-                "Dokan",
-                "Bazian",
-                "Qaran Dagh",
-                "Arbat",
-                "Penjwen",
-                "Said Sadiq",
                 "Kalar",
+                "Mawat",
+                "Arbat",
             )
-            val chamchamal = listOf("Takiya", "Takiay Jabari", "Shorsh", "Aghjalar", "Sangaw")
+            val qaladiza = listOf(
+                "Halsho",
+                "Nawdasht",
+                "Piramagroon",
+                "Tasluja",
+                "Bazian",
+                "Sangasar",
+                "Zharawa",
+                "Sangaw",
+            )
+            val kifri = listOf("Dokan", "Takiya", "Qadir Karam", "Aghjalar")
+            val chamchamal = listOf(
+                "Ranya",
+                "Hajiawa",
+                "Sarkapkan",
+                "Khalakan",
+                "Taqtaq",
+                "Hizop",
+                "Chwarqurna",
+                "Shorsh",
+                "Takiay Jabari"
+            )
+            val darbandikhan = listOf(
+                "Zalan",
+                "Gapilon",
+                "Chwarta",
+                "Barzinjah",
+                "Zarayan",
+                "Halebjai Taza",
+                "Qara Dagh",
+                "Khanaqin",
+            )
+            val halabja = listOf("Garmk", "Penjwen", "Nalparez", "Said Sadiq", "Sirwan", "Pshta")
+            val khurmal = listOf("Byara", "Tawella", "Gokhlan", "Balkha")
 
             return mutableMapOf(
+                "Duhok" to duhok,
                 "Akre" to akre,
                 "Bardarash" to bardarash,
-                "Darbandikhan" to darbandikhan,
-                "Duhok" to duhok,
                 "Erbil" to erbil,
-                "Halabja" to halabja,
-                "Kifri" to kifri,
                 "Kirkuk" to kirkuk,
-                "Koysinjaq" to koysinjaq,
-                "Qalat itoah" to qalatDizah,
                 "Sulaymaniyah" to sulaymaniyah,
+                "Qaladiza" to qaladiza,
+                "Kifri" to kifri,
                 "Chamchamal" to chamchamal,
+                "Darbandikhan" to darbandikhan,
+                "Halabja" to halabja,
+                "Khurmal" to khurmal,
             )
         }
 
