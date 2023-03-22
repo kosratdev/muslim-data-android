@@ -32,7 +32,7 @@ task clean(type: Delete) {
 
 // Dependency versions.
 ext {
-    room_version = '2.5.0'
+    room_version = '2.5.1'
     androidx_version = '1.9.0'
 }
 
