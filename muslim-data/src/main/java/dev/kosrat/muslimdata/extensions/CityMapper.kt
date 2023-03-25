@@ -65,20 +65,10 @@ class CityMapper {
                 "Bazian",
                 "Sangasar",
                 "Zharawa",
-                "Sangaw",
             )
-            val kifri = listOf("Dokan", "Takiya", "Qadir Karam", "Aghjalar")
-            val chamchamal = listOf(
-                "Ranya",
-                "Hajiawa",
-                "Sarkapkan",
-                "Khalakan",
-                "Taqtaq",
-                "Hizop",
-                "Chwarqurna",
-                "Shorsh",
-                "Takiay Jabari"
-            )
+            val kifri = listOf("Dokan", "Qadir Karam")
+            val ranya = listOf("Hajiawa", "Sarkapkan", "Khalakan", "Taqtaq", "Hizop", "Chwarqurna")
+            val chamchamal = listOf("Takiya", "Takiay Jabari", "Shorsh", "Aghjalar", "Sangaw")
             val darbandikhan = listOf(
                 "Zalan",
                 "Gapilon",
@@ -105,6 +95,7 @@ class CityMapper {
                 "Darbandikhan" to darbandikhan,
                 "Halabja" to halabja,
                 "Khurmal" to khurmal,
+                "Ranya" to ranya,
             )
         }
 
