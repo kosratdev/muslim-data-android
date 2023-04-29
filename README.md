@@ -8,7 +8,7 @@ Most cities around the world find their prayer times by using some calculations 
 
 ## Installation
 ```
-implementation 'dev.kosrat:muslimdata:1.3.2'
+implementation 'dev.kosrat:muslimdata:1.3.4'
 ```
 
 ## Usage
