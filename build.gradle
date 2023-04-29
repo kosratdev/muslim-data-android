@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -33,7 +33,7 @@ task clean(type: Delete) {
 // Dependency versions.
 ext {
     room_version = '2.5.1'
-    androidx_version = '1.9.0'
+    androidx_version = '1.10.0'
 }
 
 apply from: "${rootDir}/scripts/publish-root.gradle"

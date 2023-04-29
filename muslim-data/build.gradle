@@ -6,7 +6,7 @@ ext {
     // Provide your own coordinates here
     PUBLISH_GROUP_ID = 'dev.kosrat'
     gitVersionName = ['sh', '-c', 'git describe --tags $(git rev-list --tags --max-count=1) " "'].execute().text.trim()
-    PUBLISH_VERSION = gitVersionName.toLowerCase().replaceAll("v","")
+    PUBLISH_VERSION = gitVersionName.toLowerCase().replaceAll("v", "")
     PUBLISH_ARTIFACT_ID = 'muslimdata'
 }
 apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
@@ -27,6 +27,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_18
+        targetCompatibility JavaVersion.VERSION_18
     }
 
     buildFeatures {

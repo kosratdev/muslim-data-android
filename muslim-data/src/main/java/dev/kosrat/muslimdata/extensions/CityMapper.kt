@@ -79,8 +79,19 @@ class CityMapper {
                 "Qara Dagh",
                 "Khanaqin",
             )
-            val halabja = listOf("Garmk", "Penjwen", "Nalparez", "Said Sadiq", "Sirwan", "Pshta")
-            val khurmal = listOf("Byara", "Tawella", "Gokhlan", "Balkha")
+            val halabja = listOf(
+                "Garmk",
+                "Penjwen",
+                "Nalparez",
+                "Said Sadiq",
+                "Sirwan",
+                "Pshta",
+                "Byara",
+                "Tawella",
+                "Gokhlan",
+                "Balkha",
+                "khurmal"
+            )
 
             return mutableMapOf(
                 "Duhok" to duhok,
@@ -94,7 +105,6 @@ class CityMapper {
                 "Chamchamal" to chamchamal,
                 "Darbandikhan" to darbandikhan,
                 "Halabja" to halabja,
-                "Khurmal" to khurmal,
                 "Ranya" to ranya,
             )
         }
