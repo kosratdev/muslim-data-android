@@ -1,7 +1,15 @@
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-task androidSourcesJar(type: Jar) {
+ext {
+    // Provide your own coordinates here
+    PUBLISH_GROUP_ID = 'dev.kosrat'
+    gitVersionName = ['sh', '-c', 'git describe --tags $(git rev-list --tags --max-count=1) " "'].execute().text.trim()
+    PUBLISH_VERSION = gitVersionName.toLowerCase().replaceAll("v", "")
+    PUBLISH_ARTIFACT_ID = 'muslimdata'
+}
+
+tasks.register('androidSourcesJar', Jar) {
     archiveClassifier.set('sources')
     if (project.plugins.findPlugin("com.android.library")) {
         // For Android libraries

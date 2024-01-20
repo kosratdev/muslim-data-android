@@ -11,11 +11,7 @@ if (secretPropsFile.exists()) {
     // Read local.properties file first if it exists
     Properties p = new Properties()
     new FileInputStream(secretPropsFile).withCloseable { is -> p.load(is) }
-    println("propertieskk: $p")
-    p.each { name, value ->
-        println("name: $name, value: $value")
-        ext[name] = value
-    }
+    p.each { name, value -> ext[name] = value}
 } else {
     // Use system environment variables
     ext["ossrhUsername"] = System.getenv('OSSRH_USERNAME')

@@ -1,3 +1,0 @@
-include ':muslim-data'
-include ':app'
-rootProject.name = "Muslim Data Example"
