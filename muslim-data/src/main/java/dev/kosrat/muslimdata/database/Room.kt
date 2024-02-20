@@ -151,7 +151,7 @@ internal interface MuslimDataDao {
         AzkarReferenceTable::class,
         AzkarReferenceTranslationTable::class
     ],
-    version = 11
+    version = 12
 )
 abstract class MuslimDataDatabase : RoomDatabase() {
     internal abstract val muslimDataDao: MuslimDataDao
@@ -169,7 +169,7 @@ abstract class MuslimDataDatabase : RoomDatabase() {
                         context.applicationContext, MuslimDataDatabase::class.java,
                         "muslim_db.db"
                     )
-                        .createFromAsset("database/muslim_db_v1.3.2.db")
+                        .createFromAsset("database/muslim_db_v1.4.0.db")
                         .fallbackToDestructiveMigration()
                         .build()
 

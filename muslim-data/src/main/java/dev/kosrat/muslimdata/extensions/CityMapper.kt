@@ -50,23 +50,42 @@ class CityMapper {
                 "Kasnazan"
             )
 
+            val qasre = listOf(
+                "Wallze",
+                "Soraban",
+                "Shnawa",
+                "Rashdur",
+                "Makosan",
+                "Saya",
+                "Walash",
+                "Eskawa",
+                "Xazena",
+                "Dilman",
+                "Sarkan",
+                "Chomsak",
+                "Qalat",
+                "Koila",
+                "Mawnan",
+                "Wasan",
+                "Choma",
+                "Mergay Khwaru",
+                "Kani bast"
+            )
+
             val kirkuk = listOf("Taza Khurmatu")
 
-            val sulaymaniyah = listOf(
-                "Kalar",
-                "Mawat",
-                "Arbat",
-            )
+            val sulaymaniyah = listOf("Mawat", "Arbat")
             val qaladiza = listOf(
                 "Halsho",
                 "Nawdasht",
-                "Piramagroon",
                 "Tasluja",
                 "Bazian",
                 "Sangasar",
                 "Zharawa",
+                "Bngrd",
+                "Hero",
             )
-            val kifri = listOf("Dokan", "Qadir Karam")
+            val dokan = listOf("Piramagroon")
             val ranya = listOf("Hajiawa", "Sarkapkan", "Khalakan", "Taqtaq", "Hizop", "Chwarqurna")
             val chamchamal = listOf("Takiya", "Takiay Jabari", "Shorsh", "Aghjalar", "Sangaw")
             val darbandikhan = listOf(
@@ -77,18 +96,12 @@ class CityMapper {
                 "Zarayan",
                 "Halebjai Taza",
                 "Qara Dagh",
-                "Khanaqin",
             )
+            val penjwen = listOf("Garmk", "Nalparez", "Said Sadiq", "Pshta")
             val halabja = listOf(
-                "Garmk",
-                "Penjwen",
-                "Nalparez",
-                "Said Sadiq",
                 "Sirwan",
-                "Pshta",
                 "Byara",
                 "Tawella",
-                "Gokhlan",
                 "Balkha",
                 "khurmal"
             )
@@ -98,14 +111,16 @@ class CityMapper {
                 "Akre" to akre,
                 "Bardarash" to bardarash,
                 "Erbil" to erbil,
+                "Qasre" to qasre,
                 "Kirkuk" to kirkuk,
                 "Sulaymaniyah" to sulaymaniyah,
                 "Qaladiza" to qaladiza,
-                "Kifri" to kifri,
+                "Dokan" to dokan,
+                "Ranya" to ranya,
                 "Chamchamal" to chamchamal,
                 "Darbandikhan" to darbandikhan,
+                "Penjwen" to penjwen,
                 "Halabja" to halabja,
-                "Ranya" to ranya,
             )
         }
 
