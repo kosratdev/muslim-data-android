@@ -46,7 +46,7 @@ afterEvaluate {
                     from components.java
                 }
 
-                artifact androidSourcesJar
+//                artifact androidSourcesJar
 
                 // Mostly self-explanatory metadata
                 pom {
