@@ -3,7 +3,6 @@ package dev.kosrat.muslimdata.repository
 import android.content.Context
 import dev.kosrat.muslimdata.database.MuslimDataDatabase
 import dev.kosrat.muslimdata.database.tables.prayertimes.CalculatedPrayerTime
-import dev.kosrat.muslimdata.extensions.CityMapper
 import dev.kosrat.muslimdata.extensions.formatToDBDate
 import dev.kosrat.muslimdata.extensions.toDate
 import dev.kosrat.muslimdata.models.*
