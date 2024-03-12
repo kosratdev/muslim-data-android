@@ -54,8 +54,7 @@ class MuslimRepository(context: Context) {
             val prayerTime: PrayerTime
             if (location.hasFixedPrayerTime) {
                 val fixedPrayer = muslimDb.muslimDataDao.getPrayerTimes(
-                    location.countryCode,
-                    CityMapper.map(location.cityName, location.countryCode),
+                    location.prayerDependentId ?: location.id,
                     date.formatToDBDate()
                 )
                 prayerTime = PrayerTime(

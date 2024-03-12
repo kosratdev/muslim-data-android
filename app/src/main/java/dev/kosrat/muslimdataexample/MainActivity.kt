@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
             val locationList = repository.searchLocation("erb")
             Log.i("searchLocation", "$locationList")
 
-            val location = repository.geocoder("iq", "halabja")
+            val location = repository.geocoder("iq", "kasnazan")
             Log.i("geocoder", "$location")
 
             val location2 = repository.reverseGeocoder(36.0901, 43.0930)
