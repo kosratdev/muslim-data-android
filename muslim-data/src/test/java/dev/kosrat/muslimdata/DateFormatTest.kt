@@ -1,6 +1,6 @@
 package dev.kosrat.muslimdata
 
-import dev.kosrat.muslimdata.util.TestDateUtil.Companion.getDate
+import dev.kosrat.muslimdata.util.TestUtils.Companion.getDate
 import dev.kosrat.muslimdata.extensions.add
 import dev.kosrat.muslimdata.extensions.addDays
 import dev.kosrat.muslimdata.extensions.addHours
