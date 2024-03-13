@@ -1,5 +1,6 @@
 package dev.kosrat.muslimdata
 
+import dev.kosrat.muslimdata.util.TestDateUtil.Companion.getDate
 import dev.kosrat.muslimdata.extensions.add
 import dev.kosrat.muslimdata.extensions.addDays
 import dev.kosrat.muslimdata.extensions.addHours
@@ -14,7 +15,6 @@ import dev.kosrat.muslimdata.models.TimeFormat
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 
 /**
@@ -106,22 +106,5 @@ class DateFormatTest {
     @Test
     fun addToDate_addSeconds_isCorrect() {
         assertEquals(getDate().addSeconds(10), getDate(second = 10))
-    }
-
-    /**
-     * Generate date (2024/3/11 10:10:00). Also, gets value for each portion of the date.
-     */
-    private fun getDate(
-        year: Int = 2024,
-        month: Int = 2,
-        day: Int = 11,
-        hour: Int = 10,
-        minute: Int = 10,
-        second: Int = 0
-    ): Date {
-        val calendar = Calendar.getInstance()
-        calendar.set(year, month, day, hour, minute, second)
-        calendar.set(Calendar.MILLISECOND, 0)
-        return calendar.time
     }
 }
