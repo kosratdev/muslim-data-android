@@ -54,13 +54,11 @@ class PrayerTimesTest {
 
     @Test
     fun fixedPrayerTimes_allLocations_isNotNull() = runBlocking {
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-
         val locations = muslimDataDao.fixedPrayerTimesList()
         Assert.assertNotNull(locations)
 
         locations.forEach { location ->
-            val prayerTime = MuslimRepository(appContext).getPrayerTimes(location, date, attributes)
+            val prayerTime = MuslimRepository(context).getPrayerTimes(location, date, attributes)
             Assert.assertNotNull(prayerTime)
         }
     }
