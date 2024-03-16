@@ -2,6 +2,7 @@ package dev.kosrat.muslimdata
 
 import android.content.Context
 import androidx.room.Room
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import dev.kosrat.muslimdata.database.MuslimDataDao
 import dev.kosrat.muslimdata.database.MuslimDataDatabase
@@ -10,7 +11,9 @@ import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4::class)
 class AzkarChapterTests {
 
     private lateinit var context: Context

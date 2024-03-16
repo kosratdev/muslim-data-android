@@ -6,20 +6,27 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import dev.kosrat.muslimdata.database.MuslimDataDao
 import dev.kosrat.muslimdata.database.MuslimDataDatabase
-import dev.kosrat.muslimdata.models.Language
-import dev.kosrat.muslimdata.models.NameOfAllah
+import dev.kosrat.muslimdata.models.AsrMethod.SHAFII
+import dev.kosrat.muslimdata.models.CalculationMethod.MAKKAH
+import dev.kosrat.muslimdata.models.HigherLatitudeMethod.ANGLE_BASED
+import dev.kosrat.muslimdata.models.PrayerAttribute
+import dev.kosrat.muslimdata.repository.MuslimRepository
+import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.Date
 
 @RunWith(AndroidJUnit4::class)
-class NamesTest {
+class PrayerTimesTest {
 
     private lateinit var context: Context
     private lateinit var muslimDataDatabase: MuslimDataDatabase
     private lateinit var muslimDataDao: MuslimDataDao
+    private lateinit var attributes: PrayerAttribute
+    private lateinit var date: Date
 
     @Before
     fun setup() {
@@ -35,6 +42,9 @@ class NamesTest {
             .build()
 
         muslimDataDao = muslimDataDatabase.muslimDataDao
+
+        attributes = PrayerAttribute(MAKKAH, SHAFII, ANGLE_BASED)
+        date = Date(1709206718)
     }
 
     @After
@@ -43,33 +53,15 @@ class NamesTest {
     }
 
     @Test
-    fun namesOfAllah_englishNames_isCorrect() {
-        testNames(muslimDataDao.getNames(Language.EN.value))
-    }
+    fun fixedPrayerTimes_allLocations_isNotNull() = runBlocking {
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
-    @Test
-    fun namesOfAllah_arabicNames_isCorrect() {
-        testNames(muslimDataDao.getNames(Language.AR.value))
-    }
+        val locations = muslimDataDao.fixedPrayerTimesList()
+        Assert.assertNotNull(locations)
 
-    @Test
-    fun namesOfAllah_kurdishNames_isCorrect() {
-        testNames(muslimDataDao.getNames(Language.CKB.value))
-    }
-
-    @Test
-    fun namesOfAllah_persianNames_isCorrect() {
-        testNames(muslimDataDao.getNames(Language.FA.value))
-    }
-
-    @Test
-    fun namesOfAllah_russianNames_isCorrect() {
-        testNames(muslimDataDao.getNames(Language.RU.value))
-    }
-
-    private fun testNames(names: List<NameOfAllah>) {
-        assertNotNull(names)
-        assertNotEquals(names, emptyList<NameOfAllah>())
-        assertEquals(names.size, 99)
+        locations.forEach { location ->
+            val prayerTime = MuslimRepository(appContext).getPrayerTimes(location, date, attributes)
+            Assert.assertNotNull(prayerTime)
+        }
     }
 }

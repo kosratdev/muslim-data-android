@@ -150,6 +150,18 @@ internal interface MuslimDataDao {
                 "WHERE chapterId = :chapterId AND tr.language = :language"
     )
     fun getAzkarItems(chapterId: Int, language: String): List<AzkarItem>?
+
+    @Transaction
+    @Query(
+        "SELECT location._id as id, country.code as countryCode, country.name as countryName, " +
+                "location.name as name, latitude, longitude, " +
+                "has_fixed_prayer_time AS hasFixedPrayerTime, " +
+                "prayer_dependent_id AS prayerDependentId " +
+                "FROM location " +
+                "INNER JOIN country on country._id = location.country_id " +
+                "WHERE has_fixed_prayer_time = 1"
+    )
+    fun fixedPrayerTimesList(): List<Location>
 }
 
 /**

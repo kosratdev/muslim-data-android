@@ -7,14 +7,15 @@ import androidx.test.platform.app.InstrumentationRegistry
 import dev.kosrat.muslimdata.database.MuslimDataDao
 import dev.kosrat.muslimdata.database.MuslimDataDatabase
 import dev.kosrat.muslimdata.models.Language
+import dev.kosrat.muslimdata.models.NameOfAllah
 import org.junit.After
-import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class AzkarCategoryTests {
+class NamesTests {
 
     private lateinit var context: Context
     private lateinit var muslimDataDatabase: MuslimDataDatabase
@@ -42,35 +43,33 @@ class AzkarCategoryTests {
     }
 
     @Test
-    fun azkarCategories_enCategories_isCorrect() {
-        testAzkarCategories(Language.EN)
+    fun namesOfAllah_englishNames_isCorrect() {
+        testNames(muslimDataDao.getNames(Language.EN.value))
     }
 
     @Test
-    fun azkarCategories_arCategories_isCorrect() {
-        testAzkarCategories(Language.AR)
+    fun namesOfAllah_arabicNames_isCorrect() {
+        testNames(muslimDataDao.getNames(Language.AR.value))
     }
 
     @Test
-    fun azkarCategories_ckbCategories_isCorrect() {
-        testAzkarCategories(Language.CKB)
+    fun namesOfAllah_kurdishNames_isCorrect() {
+        testNames(muslimDataDao.getNames(Language.CKB.value))
     }
 
     @Test
-    fun azkarCategories_faCategories_isCorrect() {
-        testAzkarCategories(Language.FA)
+    fun namesOfAllah_persianNames_isCorrect() {
+        testNames(muslimDataDao.getNames(Language.FA.value))
     }
 
     @Test
-    fun azkarCategories_ruCategories_isCorrect() {
-        testAzkarCategories(Language.RU)
+    fun namesOfAllah_russianNames_isCorrect() {
+        testNames(muslimDataDao.getNames(Language.RU.value))
     }
 
-    private fun testAzkarCategories(
-        language: Language
-    ) = muslimDataDao.getAzkarCategories(language = language.value).let { categories ->
-        Assert.assertNotNull(categories)
-        Assert.assertEquals(categories.size, 11)
-        Assert.assertNotNull(categories[(0..10).random()].categoryName)
+    private fun testNames(names: List<NameOfAllah>) {
+        assertNotNull(names)
+        assertNotEquals(names, emptyList<NameOfAllah>())
+        assertEquals(names.size, 99)
     }
 }
