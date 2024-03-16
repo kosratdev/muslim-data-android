@@ -28,31 +28,32 @@ class NamesTests {
     }
 
     @Test
-    fun namesOfAllah_enNames_isCorrect() = runBlocking {
-        testNames(MuslimRepository(context).getNamesOfAllah(Language.EN))
+    fun namesOfAllah_enNames_isCorrect() {
+        testNames(Language.EN)
     }
 
     @Test
-    fun namesOfAllah_arNames_isCorrect() = runBlocking {
-        testNames(MuslimRepository(context).getNamesOfAllah(Language.AR))
+    fun namesOfAllah_arNames_isCorrect() {
+        testNames(Language.AR)
     }
 
     @Test
-    fun namesOfAllah_ckbNames_isCorrect() = runBlocking {
-        testNames(MuslimRepository(context).getNamesOfAllah(Language.CKB))
+    fun namesOfAllah_ckbNames_isCorrect() {
+        testNames(Language.CKB)
     }
 
     @Test
-    fun namesOfAllah_faNames_isCorrect() = runBlocking {
-        testNames(MuslimRepository(context).getNamesOfAllah(Language.FA))
+    fun namesOfAllah_faNames_isCorrect() {
+        testNames(Language.FA)
     }
 
     @Test
-    fun namesOfAllah_ruNames_isCorrect() = runBlocking {
-        testNames(MuslimRepository(context).getNamesOfAllah(Language.RU))
+    fun namesOfAllah_ruNames_isCorrect() {
+        testNames(Language.RU)
     }
 
-    private fun testNames(names: List<NameOfAllah>) {
+    private fun testNames(language: Language) = runBlocking {
+        val names = MuslimRepository(context).getNamesOfAllah(language)
         assertNotNull(names)
         assertNotEquals(names, emptyList<NameOfAllah>())
         assertEquals(names.size, 99)

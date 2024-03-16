@@ -8,6 +8,8 @@ import dev.kosrat.muslimdata.database.MuslimDataDao
 import dev.kosrat.muslimdata.database.MuslimDataDatabase
 import dev.kosrat.muslimdata.models.Language
 import dev.kosrat.muslimdata.models.Language.*
+import dev.kosrat.muslimdata.repository.MuslimRepository
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -18,28 +20,14 @@ import org.junit.runner.RunWith
 class AzkarItemTests {
 
     private lateinit var context: Context
-    private lateinit var muslimDataDatabase: MuslimDataDatabase
-    private lateinit var muslimDataDao: MuslimDataDao
 
     @Before
     fun setup() {
         context = InstrumentationRegistry.getInstrumentation().targetContext
-        muslimDataDatabase = Room.databaseBuilder(
-            context.applicationContext,
-            MuslimDataDatabase::class.java,
-            "muslim_db.db"
-        )
-            .createFromAsset("database/muslim_db_v2.0.0.db")
-            .fallbackToDestructiveMigration()
-            .allowMainThreadQueries()
-            .build()
-
-        muslimDataDao = muslimDataDatabase.muslimDataDao
     }
 
     @After
     fun teardown() {
-        muslimDataDatabase.close()
     }
 
     @Test
@@ -67,10 +55,9 @@ class AzkarItemTests {
         testChapterItems(RU)
     }
 
-    private fun testChapterItems(language: Language) {
-        muslimDataDao.getAzkarItems(1, language.value).let { items ->
-            assertNotNull(items)
-            assertEquals(items!!.size, 4)
-        }
+    private fun testChapterItems(language: Language) = runBlocking {
+        val items = MuslimRepository(context).getAzkarItems(1, language)
+        assertNotNull(items)
+        assertEquals(items!!.size, 4)
     }
 }
