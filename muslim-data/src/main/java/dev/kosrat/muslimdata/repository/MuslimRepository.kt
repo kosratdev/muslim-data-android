@@ -14,21 +14,21 @@ class MuslimRepository(context: Context) {
     private val muslimDb = MuslimDataDatabase.getInstance(context)
 
     /**
-     * Search for cities in the database by city name and it will return a list of UserLocation
+     * Search for cities in the database by location name and it will return a list of UserLocation
      * object.
      */
-    suspend fun searchLocation(city: String): List<Location>? {
+    suspend fun searchLocation(locationName: String): List<Location>? {
         return withContext(Dispatchers.IO) {
-            muslimDb.muslimDataDao.searchLocation("$city%")
+            muslimDb.muslimDataDao.searchLocation("$locationName%")
         }
     }
 
     /**
-     * Geocoding location information based on the provided country code and city name.
+     * Geocoding location information based on the provided country code and location name.
      */
-    suspend fun geocoder(countryCode: String, city: String): Location? {
+    suspend fun geocoder(countryCode: String, locationName: String): Location? {
         return withContext(Dispatchers.IO) {
-            muslimDb.muslimDataDao.geocoder(countryCode, city)
+            muslimDb.muslimDataDao.geocoder(countryCode, locationName)
         }
     }
 
