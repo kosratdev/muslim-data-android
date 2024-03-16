@@ -1,6 +1,5 @@
 package dev.kosrat.muslimdata
 
-import dev.kosrat.muslimdata.util.TestUtils.Companion.getDate
 import dev.kosrat.muslimdata.extensions.add
 import dev.kosrat.muslimdata.extensions.addDays
 import dev.kosrat.muslimdata.extensions.addHours
@@ -12,6 +11,7 @@ import dev.kosrat.muslimdata.extensions.format
 import dev.kosrat.muslimdata.extensions.formatToDBDate
 import dev.kosrat.muslimdata.extensions.toDate
 import dev.kosrat.muslimdata.models.TimeFormat
+import dev.kosrat.muslimdata.util.TestUtils.Companion.getDate
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.util.Calendar

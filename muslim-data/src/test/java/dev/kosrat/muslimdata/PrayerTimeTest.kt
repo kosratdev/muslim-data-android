@@ -10,9 +10,9 @@ import java.util.Locale
 class PrayerTimeTest {
 
     @Test
-    fun  prayerTime_applyOffset_isCorrect() {
+    fun prayerTime_applyOffset_isCorrect() {
         val prayer = getPrayers()
-        prayer.applyOffset(intArrayOf(1,2,3,2,1,5))
+        prayer.applyOffset(intArrayOf(1, 2, 3, 2, 1, 5))
 
         assertEquals(prayer.fajr, getDate(hour = 5, minute = 1, second = 0))
         assertEquals(prayer.sunrise, getDate(hour = 7, minute = 2, second = 0))
@@ -23,7 +23,7 @@ class PrayerTimeTest {
     }
 
     @Test
-    fun  prayerTime_formatPrayers_isCorrect() {
+    fun prayerTime_formatPrayers_isCorrect() {
         val prayer = getPrayers()
         val formattedPrayers = prayer.formatPrayerTime(TimeFormat.TIME_12, Locale.ENGLISH)
 
@@ -36,7 +36,7 @@ class PrayerTimeTest {
     }
 
     @Test
-    fun  prayerTime_getOperator_isCorrect() {
+    fun prayerTime_getOperator_isCorrect() {
         val prayer = getPrayers()
 
         assertEquals(prayer[0], getDate(hour = 5, minute = 0, second = 0))
