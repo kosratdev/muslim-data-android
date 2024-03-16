@@ -7,7 +7,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import dev.kosrat.muslimdata.database.MuslimDataDao
 import dev.kosrat.muslimdata.database.MuslimDataDatabase
 import dev.kosrat.muslimdata.models.Language
-import dev.kosrat.muslimdata.models.NameOfAllah
+import dev.kosrat.muslimdata.models.Language.*
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -15,7 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class NamesTest {
+class AzkarItemTests {
 
     private lateinit var context: Context
     private lateinit var muslimDataDatabase: MuslimDataDatabase
@@ -43,33 +43,34 @@ class NamesTest {
     }
 
     @Test
-    fun namesOfAllah_englishNames_isCorrect() {
-        testNames(muslimDataDao.getNames(Language.EN.value))
+    fun azkarItems_enItems_isCorrect() {
+        testChapterItems(EN)
     }
 
     @Test
-    fun namesOfAllah_arabicNames_isCorrect() {
-        testNames(muslimDataDao.getNames(Language.AR.value))
+    fun azkarItems_arItems_isCorrect() {
+        testChapterItems(AR)
     }
 
     @Test
-    fun namesOfAllah_kurdishNames_isCorrect() {
-        testNames(muslimDataDao.getNames(Language.CKB.value))
+    fun azkarItems_ckbItems_isCorrect() {
+        testChapterItems(CKB)
     }
 
     @Test
-    fun namesOfAllah_persianNames_isCorrect() {
-        testNames(muslimDataDao.getNames(Language.FA.value))
+    fun azkarItems_faItems_isCorrect() {
+        testChapterItems(FA)
     }
 
     @Test
-    fun namesOfAllah_russianNames_isCorrect() {
-        testNames(muslimDataDao.getNames(Language.RU.value))
+    fun azkarItems_ruItems_isCorrect() {
+        testChapterItems(RU)
     }
 
-    private fun testNames(names: List<NameOfAllah>) {
-        assertNotNull(names)
-        assertNotEquals(names, emptyList<NameOfAllah>())
-        assertEquals(names.size, 99)
+    private fun testChapterItems(language: Language) {
+        muslimDataDao.getAzkarItems(1, language.value).let { items ->
+            assertNotNull(items)
+            assertEquals(items!!.size, 4)
+        }
     }
 }

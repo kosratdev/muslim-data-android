@@ -22,7 +22,7 @@ import java.util.Locale
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class DateFormatTest {
+class DateFormatTests {
     @Test
     fun formatToDBDate_isCorrect() {
         assertEquals(getDate().formatToDBDate(), "03-11")

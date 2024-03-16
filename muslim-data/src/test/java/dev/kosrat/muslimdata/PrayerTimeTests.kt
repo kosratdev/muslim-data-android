@@ -7,7 +7,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.util.Locale
 
-class PrayerTimeTest {
+class PrayerTimeTests {
 
     @Test
     fun prayerTime_applyOffset_isCorrect() {

@@ -3,9 +3,9 @@ package dev.kosrat.muslimdata
 import android.content.Context
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dev.kosrat.muslimdata.database.MuslimDataDatabase
 import androidx.test.platform.app.InstrumentationRegistry
 import dev.kosrat.muslimdata.database.MuslimDataDao
+import dev.kosrat.muslimdata.database.MuslimDataDatabase
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -23,14 +23,9 @@ class LocationTests {
     fun setup() {
         context = InstrumentationRegistry.getInstrumentation().targetContext
         muslimDataDatabase = Room.databaseBuilder(
-            context.applicationContext,
-            MuslimDataDatabase::class.java,
-            "muslim_db.db"
-        )
-            .createFromAsset("database/muslim_db_v2.0.0.db")
-            .fallbackToDestructiveMigration()
-            .allowMainThreadQueries()
-            .build()
+            context.applicationContext, MuslimDataDatabase::class.java, "muslim_db.db"
+        ).createFromAsset("database/muslim_db_v2.0.0.db").fallbackToDestructiveMigration()
+            .allowMainThreadQueries().build()
 
         muslimDataDao = muslimDataDatabase.muslimDataDao
     }
@@ -41,9 +36,9 @@ class LocationTests {
     }
 
     @Test
-    fun testGeocoderName() {
+    fun geocoder_londonGB_isCorrect() {
         // Test (London, GB) which has fixed prayer times.
-        muslimDataDao.geocoder(countryCode = "GB",  "London").let { location ->
+        muslimDataDao.geocoder(countryCode = "GB", "London").let { location ->
             Assert.assertNotNull(location)
             if (location != null) {
                 Assert.assertEquals(location.latitude, 51.50853, 0.0001)
@@ -51,13 +46,19 @@ class LocationTests {
                 Assert.assertEquals(location.hasFixedPrayerTime, true)
             }
         }
+    }
 
-        // Test Nil.
+    @Test
+    fun geocoder_unknownCity_isNull() {
+        // Test Null.
         muslimDataDao.geocoder(countryCode = "abc", "Unknown").let { location ->
             Assert.assertNull(location)
         }
+    }
 
-        // Test (Tahran, IR) which hasn't fixed prayer times.
+    @Test
+    fun geocoder_tehranIR_isCorrect() {
+        // Test (Tehran, IR) which hasn't fixed prayer times.
         muslimDataDao.geocoder(countryCode = "IR", "Tehran").let { location ->
             Assert.assertNotNull(location)
             if (location != null) {
@@ -66,7 +67,10 @@ class LocationTests {
                 Assert.assertEquals(location.hasFixedPrayerTime, false)
             }
         }
+    }
 
+    @Test
+    fun geocoder_soranIQ_isCorrect() {
         // Test (Soran, IQ) which has fixed prayer times by  mapper.
         muslimDataDao.geocoder(countryCode = "IQ", "Soran").let { location ->
             Assert.assertNotNull(location)
@@ -76,7 +80,10 @@ class LocationTests {
                 Assert.assertEquals(location.hasFixedPrayerTime, true)
             }
         }
+    }
 
+    @Test
+    fun geocoder_qasreIQ_isCorrect() {
         // Test (Qasre, IQ) which has fixed prayer times by  mapper.
         muslimDataDao.geocoder(countryCode = "IQ", "Qasre").let { location ->
             Assert.assertNotNull(location)
@@ -89,7 +96,7 @@ class LocationTests {
     }
 
     @Test
-    fun testGeocoderLocation() {
+    fun reverseGeocoder_londonGB_isCorrect() {
         // Test (London, GB) which has fixed prayer times.
         muslimDataDao.reverseGeocoder(latitude = 51.50853, longitude = -0.12574).let { location ->
             Assert.assertNotNull(location)
@@ -100,8 +107,11 @@ class LocationTests {
                 Assert.assertEquals(location.hasFixedPrayerTime, true)
             }
         }
+    }
 
-        // Test (Tahran, IR) which hasn't fixed prayer times.
+    @Test
+    fun reverseGeocoder_tehranIR_isCorrect() {
+        // Test (Tehran, IR) which hasn't fixed prayer times.
         muslimDataDao.reverseGeocoder(latitude = 35.69439, longitude = 51.42151).let { location ->
             Assert.assertNotNull(location)
             if (location != null) {
@@ -111,7 +121,10 @@ class LocationTests {
                 Assert.assertEquals(location.hasFixedPrayerTime, false)
             }
         }
+    }
 
+    @Test
+    fun reverseGeocoder_soranIQ_isCorrect() {
         // Test (Soran, IQ) which has fixed prayer times by  mapper.
         muslimDataDao.reverseGeocoder(latitude = 36.652686, longitude = 44.541427).let { location ->
             Assert.assertNotNull(location)
@@ -122,7 +135,10 @@ class LocationTests {
                 Assert.assertEquals(location.hasFixedPrayerTime, true)
             }
         }
+    }
 
+    @Test
+    fun reverseGeocoder_qasreIQ_isCorrect() {
         // Test (Qasre, IQ) which has fixed prayer times by  mapper.
         muslimDataDao.reverseGeocoder(latitude = 36.557804, longitude = 44.827805).let { location ->
             Assert.assertNotNull(location)
