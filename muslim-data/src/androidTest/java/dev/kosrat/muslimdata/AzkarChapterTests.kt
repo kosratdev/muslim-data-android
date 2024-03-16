@@ -1,12 +1,11 @@
 package dev.kosrat.muslimdata
 
 import android.content.Context
-import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import dev.kosrat.muslimdata.database.MuslimDataDao
-import dev.kosrat.muslimdata.database.MuslimDataDatabase
 import dev.kosrat.muslimdata.models.Language
+import dev.kosrat.muslimdata.repository.MuslimRepository
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -17,28 +16,14 @@ import org.junit.runner.RunWith
 class AzkarChapterTests {
 
     private lateinit var context: Context
-    private lateinit var muslimDataDatabase: MuslimDataDatabase
-    private lateinit var muslimDataDao: MuslimDataDao
 
     @Before
     fun setup() {
         context = InstrumentationRegistry.getInstrumentation().targetContext
-        muslimDataDatabase = Room.databaseBuilder(
-            context.applicationContext,
-            MuslimDataDatabase::class.java,
-            "muslim_db.db"
-        )
-            .createFromAsset("database/muslim_db_v2.0.0.db")
-            .fallbackToDestructiveMigration()
-            .allowMainThreadQueries()
-            .build()
-
-        muslimDataDao = muslimDataDatabase.muslimDataDao
     }
 
     @After
     fun teardown() {
-        muslimDataDatabase.close()
     }
 
     @Test
@@ -66,14 +51,13 @@ class AzkarChapterTests {
         testAzkarChapters(Language.RU)
     }
 
-    private fun testAzkarChapters(language: Language) {
-        muslimDataDao.getAzkarChapters(
-            language = language.value,
-            azkarIds = (0..133).toList().toTypedArray()
-        ).let { chapters ->
-            Assert.assertNotNull(chapters)
-            Assert.assertEquals(chapters!!.size, 133)
-        }
+    private fun testAzkarChapters(language: Language) = runBlocking {
+        val chapters = MuslimRepository(context).getAzkarChapters(
+            language,
+            (0..133).toList().toTypedArray()
+        )
+        Assert.assertNotNull(chapters)
+        Assert.assertEquals(chapters!!.size, 133)
     }
 
     @Test
@@ -101,11 +85,10 @@ class AzkarChapterTests {
         testAzkarChaptersByCategory(Language.RU)
     }
 
-    private fun testAzkarChaptersByCategory(language: Language) {
+    private fun testAzkarChaptersByCategory(language: Language) = runBlocking {
         // Test English azkar chapters for the category
-        muslimDataDao.getAzkarChapters(language.value, 1).let { chapters ->
-            Assert.assertNotNull(chapters)
-            Assert.assertEquals(chapters!!.size, 7)
-        }
+        val chapters = MuslimRepository(context).getAzkarChapters(language, 1)
+        Assert.assertNotNull(chapters)
+        Assert.assertEquals(chapters!!.size, 7)
     }
 }
