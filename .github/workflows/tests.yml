@@ -1,0 +1,26 @@
+name: Unit and Android Tests
+
+on: [pull_request]
+
+jobs:
+  andorid_tests:
+    runs-on: macOS-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 16
+        uses: actions/setup-java@v3
+        with:
+          java-version: 16
+          distribution: 'adopt'
+          cache: 'gradle'
+
+      - name: Run connected tests
+        uses: ReactiveCircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          script: ./gradlew connectedCheck
