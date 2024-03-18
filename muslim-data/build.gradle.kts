@@ -39,6 +39,8 @@ android {
             withSourcesJar()
         }
     }
+
+    testOptions.targetSdk = 34
 }
 
 
