@@ -14,7 +14,7 @@ class MuslimRepository(context: Context) {
     private val muslimDb = MuslimDataDatabase.getInstance(context)
 
     /**
-     * Search for cities in the database by location name and it will return a list of UserLocation
+     * Search for locations in the database by location name and it will return a list of Location
      * object.
      */
     suspend fun searchLocation(locationName: String): List<Location>? {
@@ -74,7 +74,7 @@ class MuslimRepository(context: Context) {
     }
 
     /**
-     * Get names of allah for the specified language.
+     * Get names of Allah for the specified language.
      */
     suspend fun getNamesOfAllah(language: Language): List<NameOfAllah> {
         return withContext(Dispatchers.IO) {
