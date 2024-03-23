@@ -8,8 +8,11 @@ Most cities around the world find their prayer times by using some calculations 
 
 ## Installation
 ```
-implementation 'dev.kosrat:muslimdata:1.6.0'
+implementation 'dev.kosrat:muslimdata:2.0.0'
 ```
+
+## Migration Guide
+If you're upgrading from version 1.x to version 2.x of `muslim-data-ios`, please refer to the [Migration Guide](MIGRATION_GUIDE.md) for detailed instructions on updating your code to accommodate the changes in the latest release.
 
 ## Usage
 

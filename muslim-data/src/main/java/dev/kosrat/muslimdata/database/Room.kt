@@ -1,14 +1,30 @@
 package dev.kosrat.muslimdata.database
 
 import android.content.Context
-import androidx.room.*
-import dev.kosrat.muslimdata.database.tables.CityTable
+import androidx.room.Dao
+import androidx.room.Database
+import androidx.room.Query
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.Transaction
 import dev.kosrat.muslimdata.database.tables.CountryTable
+import dev.kosrat.muslimdata.database.tables.LocationTable
 import dev.kosrat.muslimdata.database.tables.NameTable
 import dev.kosrat.muslimdata.database.tables.NameTranslationTable
-import dev.kosrat.muslimdata.database.tables.azkars.*
+import dev.kosrat.muslimdata.database.tables.azkars.AzkarCategoryTable
+import dev.kosrat.muslimdata.database.tables.azkars.AzkarCategoryTranslationTable
+import dev.kosrat.muslimdata.database.tables.azkars.AzkarChapterTable
+import dev.kosrat.muslimdata.database.tables.azkars.AzkarChapterTranslationTable
+import dev.kosrat.muslimdata.database.tables.azkars.AzkarItemTable
+import dev.kosrat.muslimdata.database.tables.azkars.AzkarItemTranslationTable
+import dev.kosrat.muslimdata.database.tables.azkars.AzkarReferenceTable
+import dev.kosrat.muslimdata.database.tables.azkars.AzkarReferenceTranslationTable
 import dev.kosrat.muslimdata.database.tables.prayertimes.FixedPrayerTime
-import dev.kosrat.muslimdata.models.*
+import dev.kosrat.muslimdata.models.AzkarCategory
+import dev.kosrat.muslimdata.models.AzkarChapter
+import dev.kosrat.muslimdata.models.AzkarItem
+import dev.kosrat.muslimdata.models.Location
+import dev.kosrat.muslimdata.models.NameOfAllah
 
 /**
  * Data access object interface class for MuslimData database that holds queries which is
@@ -17,53 +33,57 @@ import dev.kosrat.muslimdata.models.*
 @Dao
 internal interface MuslimDataDao {
     /**
-     * Search for cities in the database that match or like the provided city name.
+     * Search for locations in the database that match or like the provided name.
      */
     @Transaction
     @Query(
-        "SELECT city.country_code as countryCode, country_name as countryName, " +
-                "city_name as cityName, latitude, longitude, " +
-                "has_fixed_prayer_time AS hasFixedPrayerTime " +
-                "FROM city " +
-                "INNER JOIN country on city.country_code = country.country_code " +
-                "WHERE city_name like :city"
+        "SELECT location._id as id, country.code as countryCode, country.name as countryName, " +
+                "location.name as name, latitude, longitude, " +
+                "has_fixed_prayer_time AS hasFixedPrayerTime, " +
+                "prayer_dependent_id AS prayerDependentId " +
+                "FROM location " +
+                "INNER JOIN country on country._id = location.country_id " +
+                "WHERE location.name like :locationName"
     )
-    fun searchLocation(city: String): List<Location>?
+    fun searchLocation(locationName: String): List<Location>?
 
     /**
-     * Get location information based on the provided country code and city name in the database.
+     * Get location information based on the provided country code and location name in the database.
      */
     @Transaction
     @Query(
-        "SELECT city.country_code as countryCode, country_name as countryName, " +
-                "city_name as cityName, latitude, longitude, " +
-                "has_fixed_prayer_time AS hasFixedPrayerTime " +
-                "FROM city " +
-                "INNER JOIN country on city.country_code = country.country_code " +
-                "WHERE city.country_code= :countryCode  COLLATE NOCASE " +
-                "and city_name= :city COLLATE NOCASE"
+        "SELECT location._id as id, country.code as countryCode, country.name as countryName, " +
+                "location.name as name, latitude, longitude, " +
+                "has_fixed_prayer_time AS hasFixedPrayerTime, " +
+                "prayer_dependent_id AS prayerDependentId " +
+                "FROM location " +
+                "INNER JOIN country on country._id = location.country_id " +
+                "WHERE country.code= :countryCode  COLLATE NOCASE " +
+                "and location.name= :locationName COLLATE NOCASE"
     )
-    fun geocoder(countryCode: String, city: String): Location?
+    fun geocoder(countryCode: String, locationName: String): Location?
 
     /**
      * Get location information based on the provided latitude and longitude in the database.
      */
     @Transaction
     @Query(
-        "SELECT city.country_code as countryCode, country_name as countryName, " +
-                "city_name as cityName, latitude, longitude, " +
-                "has_fixed_prayer_time AS hasFixedPrayerTime " +
-                "FROM city " +
-                "INNER JOIN country on city.country_code = country.country_code " +
-                "ORDER BY abs(latitude - :latitude) + abs(longitude - :longitude) LIMIT 1"
+        "SELECT location._id as id, country.code as countryCode, country.name as countryName, " +
+                "location.name as name, latitude, longitude, " +
+                "has_fixed_prayer_time AS hasFixedPrayerTime, " +
+                "prayer_dependent_id AS prayerDependentId " +
+                "FROM location " +
+                "INNER JOIN country on country._id = location.country_id " +
+                "ORDER BY abs(latitude - :latitude) + abs(longitude - :longitude) " +
+                "LIMIT 1"
     )
     fun reverseGeocoder(latitude: Double, longitude: Double): Location?
 
     /**
      * Get prayer times for the specified user's location and date in the database.
      */
-    @Query("SELECT * FROM prayer_time WHERE city = :city AND country_code = :countryCode AND date = :date")
-    fun getPrayerTimes(countryCode: String, city: String, date: String): FixedPrayerTime
+    @Query("SELECT * FROM prayer_time WHERE location_id = :locationId AND date = :date")
+    fun getPrayerTimes(locationId: Int, date: String): FixedPrayerTime
 
     /**
      * Get names of allah from the database for the specified language.
@@ -130,6 +150,18 @@ internal interface MuslimDataDao {
                 "WHERE chapterId = :chapterId AND tr.language = :language"
     )
     fun getAzkarItems(chapterId: Int, language: String): List<AzkarItem>?
+
+    @Transaction
+    @Query(
+        "SELECT location._id as id, country.code as countryCode, country.name as countryName, " +
+                "location.name as name, latitude, longitude, " +
+                "has_fixed_prayer_time AS hasFixedPrayerTime, " +
+                "prayer_dependent_id AS prayerDependentId " +
+                "FROM location " +
+                "INNER JOIN country on country._id = location.country_id " +
+                "WHERE has_fixed_prayer_time = 1"
+    )
+    fun fixedPrayerTimesList(): List<Location>
 }
 
 /**
@@ -138,7 +170,7 @@ internal interface MuslimDataDao {
 @Database(
     entities = [
         CountryTable::class,
-        CityTable::class,
+        LocationTable::class,
         FixedPrayerTime::class,
         NameTable::class,
         NameTranslationTable::class,
@@ -151,7 +183,7 @@ internal interface MuslimDataDao {
         AzkarReferenceTable::class,
         AzkarReferenceTranslationTable::class
     ],
-    version = 15
+    version = 16
 )
 abstract class MuslimDataDatabase : RoomDatabase() {
     internal abstract val muslimDataDao: MuslimDataDao
@@ -169,7 +201,7 @@ abstract class MuslimDataDatabase : RoomDatabase() {
                         context.applicationContext, MuslimDataDatabase::class.java,
                         "muslim_db.db"
                     )
-                        .createFromAsset("database/muslim_db_v1.5.0.db")
+                        .createFromAsset("database/muslim_db_v2.0.0.db")
                         .fallbackToDestructiveMigration()
                         .build()
 
