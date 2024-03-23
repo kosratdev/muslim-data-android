@@ -10,14 +10,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
 
-class MuslimRepository(context: Context) {
+class MuslimRepository(context: Context) : Repository {
     private val muslimDb = MuslimDataDatabase.getInstance(context)
 
     /**
      * Search for locations in the database by location name and it will return a list of Location
      * object.
      */
-    suspend fun searchLocation(locationName: String): List<Location>? {
+    override suspend fun searchLocation(locationName: String): List<Location>? {
         return withContext(Dispatchers.IO) {
             muslimDb.muslimDataDao.searchLocation("$locationName%")
         }
@@ -26,7 +26,7 @@ class MuslimRepository(context: Context) {
     /**
      * Geocoding location information based on the provided country code and location name.
      */
-    suspend fun geocoder(countryCode: String, locationName: String): Location? {
+    override suspend fun geocoder(countryCode: String, locationName: String): Location? {
         return withContext(Dispatchers.IO) {
             muslimDb.muslimDataDao.geocoder(countryCode, locationName)
         }
@@ -35,7 +35,7 @@ class MuslimRepository(context: Context) {
     /**
      * Reverse geocoding location information based on the provided latitude and longitude.
      */
-    suspend fun reverseGeocoder(latitude: Double, longitude: Double): Location? {
+    override suspend fun reverseGeocoder(latitude: Double, longitude: Double): Location? {
         return withContext(Dispatchers.IO) {
             muslimDb.muslimDataDao.reverseGeocoder(latitude, longitude)
         }
@@ -44,17 +44,14 @@ class MuslimRepository(context: Context) {
     /**
      * Get prayer times for the specified location, date, and prayer attribute.
      */
-    suspend fun getPrayerTimes(
-        location: Location,
-        date: Date,
-        attribute: PrayerAttribute
+    override suspend fun getPrayerTimes(
+        location: Location, date: Date, attribute: PrayerAttribute
     ): PrayerTime {
         return withContext(Dispatchers.IO) {
             val prayerTime: PrayerTime
             if (location.hasFixedPrayerTime) {
                 val fixedPrayer = muslimDb.muslimDataDao.getPrayerTimes(
-                    location.prayerDependentId ?: location.id,
-                    date.formatToDBDate()
+                    location.prayerDependentId ?: location.id, date.formatToDBDate()
                 )
                 prayerTime = PrayerTime(
                     fixedPrayer.fajr.toDate(date),
@@ -76,7 +73,7 @@ class MuslimRepository(context: Context) {
     /**
      * Get names of Allah for the specified language.
      */
-    suspend fun getNamesOfAllah(language: Language): List<NameOfAllah> {
+    override suspend fun getNamesOfAllah(language: Language): List<NameOfAllah> {
         return withContext(Dispatchers.IO) {
             muslimDb.muslimDataDao.getNames(language.value)
         }
@@ -85,7 +82,7 @@ class MuslimRepository(context: Context) {
     /**
      * Get azkar categories for the specified language.
      */
-    suspend fun getAzkarCategories(language: Language): List<AzkarCategory> {
+    override suspend fun getAzkarCategories(language: Language): List<AzkarCategory> {
         return withContext(Dispatchers.IO) {
             muslimDb.muslimDataDao.getAzkarCategories(language.value)
         }
@@ -94,7 +91,9 @@ class MuslimRepository(context: Context) {
     /**
      * Get azkar chapters for the specified language and category id.
      */
-    suspend fun getAzkarChapters(language: Language, categoryId: Int = -1): List<AzkarChapter>? {
+    override suspend fun getAzkarChapters(
+        language: Language, categoryId: Int
+    ): List<AzkarChapter>? {
         return withContext(Dispatchers.IO) {
             muslimDb.muslimDataDao.getAzkarChapters(language.value, categoryId)
         }
@@ -103,7 +102,9 @@ class MuslimRepository(context: Context) {
     /**
      * Get azkar chapters for the specified language and chapter ids.
      */
-    suspend fun getAzkarChapters(language: Language, azkarIds: Array<Int>): List<AzkarChapter>? {
+    override suspend fun getAzkarChapters(
+        language: Language, azkarIds: Array<Int>
+    ): List<AzkarChapter>? {
         return withContext(Dispatchers.IO) {
             muslimDb.muslimDataDao.getAzkarChapters(language.value, azkarIds)
         }
@@ -112,7 +113,7 @@ class MuslimRepository(context: Context) {
     /**
      * Get azkar items for the specified azkar chapter id and language.
      */
-    suspend fun getAzkarItems(chapterId: Int, language: Language): List<AzkarItem>? {
+    override suspend fun getAzkarItems(chapterId: Int, language: Language): List<AzkarItem>? {
         return withContext(Dispatchers.IO) {
             muslimDb.muslimDataDao.getAzkarItems(chapterId, language.value)
         }
