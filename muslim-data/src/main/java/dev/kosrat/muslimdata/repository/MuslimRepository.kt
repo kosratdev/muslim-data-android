@@ -103,10 +103,10 @@ class MuslimRepository(context: Context) : Repository {
      * Get azkar chapters for the specified language and chapter ids.
      */
     override suspend fun getAzkarChapters(
-        language: Language, azkarIds: Array<Int>
+        language: Language, chapterIds: Array<Int>
     ): List<AzkarChapter>? {
         return withContext(Dispatchers.IO) {
-            muslimDb.muslimDataDao.getAzkarChapters(language.value, azkarIds)
+            muslimDb.muslimDataDao.getAzkarChapters(language.value, chapterIds)
         }
     }
 

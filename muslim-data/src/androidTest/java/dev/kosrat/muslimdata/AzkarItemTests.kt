@@ -32,32 +32,32 @@ class AzkarItemTests {
 
     @Test
     fun azkarItems_enItems_isCorrect() {
-        testChapterItems(EN)
+        testChapterItems(EN, 1, 4)
     }
 
     @Test
     fun azkarItems_arItems_isCorrect() {
-        testChapterItems(AR)
+        testChapterItems(AR, 25, 8)
     }
 
     @Test
     fun azkarItems_ckbItems_isCorrect() {
-        testChapterItems(CKB)
+        testChapterItems(CKB, 50, 2)
     }
 
     @Test
     fun azkarItems_faItems_isCorrect() {
-        testChapterItems(FA)
+        testChapterItems(FA, 75, 1)
     }
 
     @Test
     fun azkarItems_ruItems_isCorrect() {
-        testChapterItems(RU)
+        testChapterItems(RU, 100, 1)
     }
 
-    private fun testChapterItems(language: Language) = runBlocking {
-        val items = MuslimRepository(context).getAzkarItems(1, language)
+    private fun testChapterItems(language: Language, id: Int, total: Int) = runBlocking {
+        val items = MuslimRepository(context).getAzkarItems(id, language)
         assertNotNull(items)
-        assertEquals(items!!.size, 4)
+        assertEquals(items!!.size, total)
     }
 }

@@ -18,7 +18,11 @@ interface Repository {
 
     suspend fun reverseGeocoder(latitude: Double, longitude: Double): Location?
 
-    suspend fun getPrayerTimes(location: Location, date: Date, attribute: PrayerAttribute): PrayerTime
+    suspend fun getPrayerTimes(
+        location: Location,
+        date: Date,
+        attribute: PrayerAttribute
+    ): PrayerTime
 
     suspend fun getNamesOfAllah(language: Language): List<NameOfAllah>
 
@@ -26,7 +30,7 @@ interface Repository {
 
     suspend fun getAzkarChapters(language: Language, categoryId: Int = -1): List<AzkarChapter>?
 
-    suspend fun getAzkarChapters(language: Language, azkarIds: Array<Int>): List<AzkarChapter>?
+    suspend fun getAzkarChapters(language: Language, chapterIds: Array<Int>): List<AzkarChapter>?
 
     suspend fun getAzkarItems(chapterId: Int, language: Language): List<AzkarItem>?
 }

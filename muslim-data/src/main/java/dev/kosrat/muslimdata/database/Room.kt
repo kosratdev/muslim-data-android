@@ -37,12 +37,12 @@ internal interface MuslimDataDao {
      */
     @Transaction
     @Query(
-        "SELECT location._id as id, country.code as countryCode, country.name as countryName, " +
-                "location.name as name, latitude, longitude, " +
+        "SELECT location._id AS id, country.code AS countryCode, country.name AS countryName, " +
+                "location.name AS name, latitude, longitude, " +
                 "has_fixed_prayer_time AS hasFixedPrayerTime, " +
                 "prayer_dependent_id AS prayerDependentId " +
                 "FROM location " +
-                "INNER JOIN country on country._id = location.country_id " +
+                "INNER JOIN country ON country._id = location.country_id " +
                 "WHERE location.name like :locationName"
     )
     fun searchLocation(locationName: String): List<Location>?
@@ -52,14 +52,14 @@ internal interface MuslimDataDao {
      */
     @Transaction
     @Query(
-        "SELECT location._id as id, country.code as countryCode, country.name as countryName, " +
-                "location.name as name, latitude, longitude, " +
+        "SELECT location._id AS id, country.code AS countryCode, country.name AS countryName, " +
+                "location.name AS name, latitude, longitude, " +
                 "has_fixed_prayer_time AS hasFixedPrayerTime, " +
                 "prayer_dependent_id AS prayerDependentId " +
                 "FROM location " +
-                "INNER JOIN country on country._id = location.country_id " +
+                "INNER JOIN country ON country._id = location.country_id " +
                 "WHERE country.code= :countryCode  COLLATE NOCASE " +
-                "and location.name= :locationName COLLATE NOCASE"
+                "AND location.name= :locationName COLLATE NOCASE"
     )
     fun geocoder(countryCode: String, locationName: String): Location?
 
@@ -68,12 +68,12 @@ internal interface MuslimDataDao {
      */
     @Transaction
     @Query(
-        "SELECT location._id as id, country.code as countryCode, country.name as countryName, " +
-                "location.name as name, latitude, longitude, " +
+        "SELECT location._id AS id, country.code AS countryCode, country.name AS countryName, " +
+                "location.name AS name, latitude, longitude, " +
                 "has_fixed_prayer_time AS hasFixedPrayerTime, " +
                 "prayer_dependent_id AS prayerDependentId " +
                 "FROM location " +
-                "INNER JOIN country on country._id = location.country_id " +
+                "INNER JOIN country ON country._id = location.country_id " +
                 "ORDER BY abs(latitude - :latitude) + abs(longitude - :longitude) " +
                 "LIMIT 1"
     )
@@ -90,10 +90,10 @@ internal interface MuslimDataDao {
      */
     @Transaction
     @Query(
-        "SELECT name._id AS number, name.name , tr.name AS translation " +
+        "SELECT name._id AS number, name.name , transl.name AS translation " +
                 "FROM name " +
-                "INNER JOIN name_translation as tr on tr.name_id = name._id " +
-                "and tr.language = :language"
+                "INNER JOIN name_translation AS transl ON transl.name_id = name._id " +
+                "AND transl.language = :language"
     )
     fun getNames(language: String): List<NameOfAllah>
 
@@ -104,7 +104,7 @@ internal interface MuslimDataDao {
     @Query(
         "SELECT category._id AS categoryId, category_name AS categoryName " +
                 "FROM azkar_category AS category " +
-                "INNER JOIN azkar_category_translation as tr on tr.category_id = category._id " +
+                "INNER JOIN azkar_category_translation AS transl ON transl.category_id = category._id " +
                 "WHERE language = :language"
     )
     fun getAzkarCategories(language: String): List<AzkarCategory>
@@ -117,8 +117,8 @@ internal interface MuslimDataDao {
         "SELECT chapter._id AS chapterId, category_id AS categoryId, " +
                 "chapter_name AS chapterName " +
                 "FROM azkar_chapter AS chapter " +
-                "INNER JOIN azkar_chapter_translation as tr on tr.chapter_id = chapter._id " +
-                "WHERE language = :language and (:categoryId = -1 OR category_id = :categoryId)"
+                "INNER JOIN azkar_chapter_translation AS transl ON transl.chapter_id = chapter._id " +
+                "WHERE language = :language AND (:categoryId = -1 OR category_id = :categoryId)"
     )
     fun getAzkarChapters(language: String, categoryId: Int): List<AzkarChapter>?
 
@@ -130,35 +130,35 @@ internal interface MuslimDataDao {
         "SELECT chapter._id AS chapterId, category_id AS categoryId, " +
                 "chapter_name AS chapterName " +
                 "FROM azkar_chapter AS chapter " +
-                "INNER JOIN azkar_chapter_translation as tr on tr.chapter_id = chapter._id " +
-                "WHERE language = :language and chapter._id in (:azkarIds)"
+                "INNER JOIN azkar_chapter_translation AS transl ON transl.chapter_id = chapter._id " +
+                "WHERE language = :language AND chapter._id IN (:chapterIds)"
     )
-    fun getAzkarChapters(language: String, azkarIds: Array<Int>): List<AzkarChapter>?
+    fun getAzkarChapters(language: String, chapterIds: Array<Int>): List<AzkarChapter>?
 
     /**
      * Get azkar items from the database for the specified chapter id and language.
      */
     @Transaction
     @Query(
-        "SELECT item._id AS itemId, item.chapter_id AS chapterId, tr.language, item.item, " +
-                "tr.item_translation AS translation, rtr.reference " +
-                "FROM azkar_item as item " +
-                "INNER JOIN azkar_item_translation AS tr ON tr.item_id = item._id " +
+        "SELECT item._id AS itemId, item.chapter_id AS chapterId, transl.language, item.item, " +
+                "transl.item_translation AS translation, ref_transl.reference " +
+                "FROM azkar_item AS item " +
+                "INNER JOIN azkar_item_translation AS transl ON transl.item_id = item._id " +
                 "INNER JOIN azkar_reference AS ref ON ref.item_id = item._id " +
-                "INNER JOIN azkar_reference_translation AS rtr ON rtr.reference_id = ref._id AND " +
-                "rtr.language = tr.language " +
-                "WHERE chapterId = :chapterId AND tr.language = :language"
+                "INNER JOIN azkar_reference_translation AS ref_transl ON ref_transl.reference_id = ref._id AND " +
+                "ref_transl.language = transl.language " +
+                "WHERE chapterId = :chapterId AND transl.language = :language"
     )
     fun getAzkarItems(chapterId: Int, language: String): List<AzkarItem>?
 
     @Transaction
     @Query(
-        "SELECT location._id as id, country.code as countryCode, country.name as countryName, " +
-                "location.name as name, latitude, longitude, " +
+        "SELECT location._id AS id, country.code AS countryCode, country.name AS countryName, " +
+                "location.name AS name, latitude, longitude, " +
                 "has_fixed_prayer_time AS hasFixedPrayerTime, " +
                 "prayer_dependent_id AS prayerDependentId " +
                 "FROM location " +
-                "INNER JOIN country on country._id = location.country_id " +
+                "INNER JOIN country ON country._id = location.country_id " +
                 "WHERE has_fixed_prayer_time = 1"
     )
     fun fixedPrayerTimesList(): List<Location>

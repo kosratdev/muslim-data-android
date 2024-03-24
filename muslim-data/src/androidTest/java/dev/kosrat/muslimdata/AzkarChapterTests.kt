@@ -51,9 +51,17 @@ class AzkarChapterTests {
         testAzkarChapters(Language.RU)
     }
 
-    private fun testAzkarChapters(language: Language) = runBlocking {
+    private fun testAzkarChapters(language: Language, categoryId: Int = -1, total: Int = 133) =
+        runBlocking {
+            val chapters = MuslimRepository(context).getAzkarChapters(language, categoryId)
+            Assert.assertNotNull(chapters)
+            Assert.assertEquals(chapters!!.size, total)
+        }
+
+    @Test
+    fun azkarChapters_chapterIds_isCorrect() = runBlocking {
         val chapters = MuslimRepository(context).getAzkarChapters(
-            language,
+            Language.EN,
             (0..133).toList().toTypedArray()
         )
         Assert.assertNotNull(chapters)
@@ -62,33 +70,76 @@ class AzkarChapterTests {
 
     @Test
     fun azkarChaptersByCategory_enChapters_isCorrect() {
-        testAzkarChaptersByCategory(Language.EN)
+        testAzkarChapters(Language.EN, 1, 7)
+        testAzkarChapters(Language.EN, 2, 14)
+        testAzkarChapters(Language.EN, 3, 7)
+        testAzkarChapters(Language.EN, 4, 15)
+        testAzkarChapters(Language.EN, 5, 11)
+        testAzkarChapters(Language.EN, 6, 19)
+        testAzkarChapters(Language.EN, 7, 9)
+        testAzkarChapters(Language.EN, 8, 8)
+        testAzkarChapters(Language.EN, 9, 20)
+        testAzkarChapters(Language.EN, 10, 10)
+        testAzkarChapters(Language.EN, 11, 13)
     }
 
     @Test
     fun azkarChaptersByCategory_arChapters_isCorrect() {
-        testAzkarChaptersByCategory(Language.AR)
+        testAzkarChapters(Language.AR, 1, 7)
+        testAzkarChapters(Language.AR, 2, 14)
+        testAzkarChapters(Language.AR, 3, 7)
+        testAzkarChapters(Language.AR, 4, 15)
+        testAzkarChapters(Language.AR, 5, 11)
+        testAzkarChapters(Language.AR, 6, 19)
+        testAzkarChapters(Language.AR, 7, 9)
+        testAzkarChapters(Language.AR, 8, 8)
+        testAzkarChapters(Language.AR, 9, 20)
+        testAzkarChapters(Language.AR, 10, 10)
+        testAzkarChapters(Language.AR, 11, 13)
     }
 
     @Test
     fun azkarChaptersByCategory_ckbChapters_isCorrect() {
-        testAzkarChaptersByCategory(Language.CKB)
+        testAzkarChapters(Language.CKB, 1, 7)
+        testAzkarChapters(Language.CKB, 2, 14)
+        testAzkarChapters(Language.CKB, 3, 7)
+        testAzkarChapters(Language.CKB, 4, 15)
+        testAzkarChapters(Language.CKB, 5, 11)
+        testAzkarChapters(Language.CKB, 6, 19)
+        testAzkarChapters(Language.CKB, 7, 9)
+        testAzkarChapters(Language.CKB, 8, 8)
+        testAzkarChapters(Language.CKB, 9, 20)
+        testAzkarChapters(Language.CKB, 10, 10)
+        testAzkarChapters(Language.CKB, 11, 13)
     }
 
     @Test
     fun azkarChaptersByCategory_faChapters_isCorrect() {
-        testAzkarChaptersByCategory(Language.FA)
+        testAzkarChapters(Language.FA, 1, 7)
+        testAzkarChapters(Language.FA, 2, 14)
+        testAzkarChapters(Language.FA, 3, 7)
+        testAzkarChapters(Language.FA, 4, 15)
+        testAzkarChapters(Language.FA, 5, 11)
+        testAzkarChapters(Language.FA, 6, 19)
+        testAzkarChapters(Language.FA, 7, 9)
+        testAzkarChapters(Language.FA, 8, 8)
+        testAzkarChapters(Language.FA, 9, 20)
+        testAzkarChapters(Language.FA, 10, 10)
+        testAzkarChapters(Language.FA, 11, 13)
     }
 
     @Test
     fun azkarChaptersByCategory_ruChapters_isCorrect() {
-        testAzkarChaptersByCategory(Language.RU)
-    }
-
-    private fun testAzkarChaptersByCategory(language: Language) = runBlocking {
-        // Test English azkar chapters for the category
-        val chapters = MuslimRepository(context).getAzkarChapters(language, 1)
-        Assert.assertNotNull(chapters)
-        Assert.assertEquals(chapters!!.size, 7)
+        testAzkarChapters(Language.RU, 1, 7)
+        testAzkarChapters(Language.RU, 2, 14)
+        testAzkarChapters(Language.RU, 3, 7)
+        testAzkarChapters(Language.RU, 4, 15)
+        testAzkarChapters(Language.RU, 5, 11)
+        testAzkarChapters(Language.RU, 6, 19)
+        testAzkarChapters(Language.RU, 7, 9)
+        testAzkarChapters(Language.RU, 8, 8)
+        testAzkarChapters(Language.RU, 9, 20)
+        testAzkarChapters(Language.RU, 10, 10)
+        testAzkarChapters(Language.RU, 11, 13)
     }
 }
