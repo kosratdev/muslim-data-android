@@ -22,7 +22,7 @@ import org.junit.runner.RunWith
 import java.util.Date
 
 @RunWith(AndroidJUnit4::class)
-class PrayerTimesTest {
+class PrayerTimesTests {
 
     private lateinit var context: Context
     private lateinit var muslimDataDatabase: MuslimDataDatabase
