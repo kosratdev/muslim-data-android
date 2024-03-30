@@ -3,42 +3,5 @@ name: Unit and Android Tests
 on: [pull_request]
 
 jobs:
-  unit_tests:
-    runs-on: macOS-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.1.1
-
-      - name: Set up JDK 18
-        uses: actions/setup-java@v4
-        with:
-          java-version: '18'
-          distribution: 'adopt'
-
-      - name: Grant execute permissions for gradlew
-        run: chmod +x ./gradlew
-
-      - name: Run Tests with Gradle
-        run: ./gradlew test
-
-  andorid_tests:
-    runs-on: macOS-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4.1.1
-
-      - name: Set up JDK 18
-        uses: actions/setup-java@v4
-        with:
-          java-version: '18'
-          distribution: 'adopt'
-          cache: 'gradle'
-
-      - name: Run Android tests
-        uses: ReactiveCircus/android-emulator-runner@v2
-        with:
-          api-level: 30
-          target: google_apis
-          arch: x86_64
-          script: ./gradlew connectedCheck
+  run_tests:
+    uses: ./.github/workflows/tests_workflow.yml

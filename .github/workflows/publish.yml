@@ -2,10 +2,14 @@ name: Publish
 on:
   release:
     types: [released]
-    
+
 jobs:
+  run_tests:
+    uses: ./.github/workflows/tests_workflow.yml
+
   publish:
     name: Release build and publish
+    needs: run_tests
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -19,10 +23,6 @@ jobs:
         # Builds the release artifacts of the library
       - name: Release build
         run: ./gradlew :muslim-data:assembleRelease
-
-        # Generates other artifacts (javadocJar is optional)
-#      - name: Source jar and dokka
-#        run: ./gradlew androidSourcesJar javadocJar
 
         # Runs upload, and then closes & releases the repository
       - name: Publish to MavenCentral
