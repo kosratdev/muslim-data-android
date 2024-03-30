@@ -140,7 +140,7 @@ internal interface MuslimDataDao {
      */
     @Transaction
     @Query(
-        "SELECT item._id AS itemId, item.chapter_id AS chapterId, transl.language, item.item, " +
+        "SELECT item._id AS itemId, item.chapter_id AS chapterId, item.item, " +
                 "transl.item_translation AS translation, ref_transl.reference " +
                 "FROM azkar_item AS item " +
                 "INNER JOIN azkar_item_translation AS transl ON transl.item_id = item._id " +

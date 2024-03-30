@@ -25,6 +25,14 @@ import androidx.room.PrimaryKey
     ],
     indices = [
         Index(
+            name = "location_country_id_index",
+            value = ["country_id"]
+        ),
+        Index(
+            name = "location_prayer_dependent_id_index",
+            value = ["prayer_dependent_id"]
+        ),
+        Index(
             name = "location_name_index",
             value = ["name"]
         ),
