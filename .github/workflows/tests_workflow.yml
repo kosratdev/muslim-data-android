@@ -29,6 +29,9 @@ jobs:
     runs-on: macOS-latest
 
     steps:
+      - uses: szenius/set-timezone@v1.2
+        with:
+          timezoneMacos: "Asia/Baghdad"
       - name: Checkout
         uses: actions/checkout@v4.1.1
 
