@@ -5,10 +5,15 @@ import dev.kosrat.muslimdata.database.MuslimDataDatabase
 import dev.kosrat.muslimdata.database.tables.prayertimes.CalculatedPrayerTime
 import dev.kosrat.muslimdata.extensions.formatToDBDate
 import dev.kosrat.muslimdata.extensions.toDate
-import dev.kosrat.muslimdata.models.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.util.*
+import dev.kosrat.muslimdata.models.AzkarCategory
+import dev.kosrat.muslimdata.models.AzkarChapter
+import dev.kosrat.muslimdata.models.AzkarItem
+import dev.kosrat.muslimdata.models.Language
+import dev.kosrat.muslimdata.models.Location
+import dev.kosrat.muslimdata.models.NameOfAllah
+import dev.kosrat.muslimdata.models.PrayerAttribute
+import dev.kosrat.muslimdata.models.PrayerTime
+import java.util.Date
 
 class MuslimRepository(context: Context) : Repository {
     private val muslimDb = MuslimDataDatabase.getInstance(context)
@@ -18,27 +23,21 @@ class MuslimRepository(context: Context) : Repository {
      * object.
      */
     override suspend fun searchLocation(locationName: String): List<Location>? {
-        return withContext(Dispatchers.IO) {
-            muslimDb.muslimDataDao.searchLocation("$locationName%")
-        }
+        return muslimDb.muslimDataDao.searchLocation("$locationName%")
     }
 
     /**
      * Geocoding location information based on the provided country code and location name.
      */
     override suspend fun geocoder(countryCode: String, locationName: String): Location? {
-        return withContext(Dispatchers.IO) {
-            muslimDb.muslimDataDao.geocoder(countryCode, locationName)
-        }
+        return muslimDb.muslimDataDao.geocoder(countryCode, locationName)
     }
 
     /**
      * Reverse geocoding location information based on the provided latitude and longitude.
      */
     override suspend fun reverseGeocoder(latitude: Double, longitude: Double): Location? {
-        return withContext(Dispatchers.IO) {
-            muslimDb.muslimDataDao.reverseGeocoder(latitude, longitude)
-        }
+        return muslimDb.muslimDataDao.reverseGeocoder(latitude, longitude)
     }
 
     /**
@@ -47,45 +46,39 @@ class MuslimRepository(context: Context) : Repository {
     override suspend fun getPrayerTimes(
         location: Location, date: Date, attribute: PrayerAttribute
     ): PrayerTime {
-        return withContext(Dispatchers.IO) {
-            val prayerTime: PrayerTime
-            if (location.hasFixedPrayerTime) {
-                val fixedPrayer = muslimDb.muslimDataDao.getPrayerTimes(
-                    location.prayerDependentId ?: location.id, date.formatToDBDate()
-                )
-                prayerTime = PrayerTime(
-                    fixedPrayer.fajr.toDate(date),
-                    fixedPrayer.sunrise.toDate(date),
-                    fixedPrayer.dhuhr.toDate(date),
-                    fixedPrayer.asr.toDate(date),
-                    fixedPrayer.maghrib.toDate(date),
-                    fixedPrayer.isha.toDate(date)
-                )
-                prayerTime.adjustDST()
-            } else {
-                prayerTime = CalculatedPrayerTime(attribute).getPrayerTimes(location, date)
-            }
-            prayerTime.applyOffset(attribute.offset)
-            prayerTime
+        val prayerTime: PrayerTime
+        if (location.hasFixedPrayerTime) {
+            val fixedPrayer = muslimDb.muslimDataDao.getPrayerTimes(
+                location.prayerDependentId ?: location.id, date.formatToDBDate()
+            )
+            prayerTime = PrayerTime(
+                fixedPrayer.fajr.toDate(date),
+                fixedPrayer.sunrise.toDate(date),
+                fixedPrayer.dhuhr.toDate(date),
+                fixedPrayer.asr.toDate(date),
+                fixedPrayer.maghrib.toDate(date),
+                fixedPrayer.isha.toDate(date)
+            )
+            prayerTime.adjustDST()
+        } else {
+            prayerTime = CalculatedPrayerTime(attribute).getPrayerTimes(location, date)
         }
+        prayerTime.applyOffset(attribute.offset)
+        return prayerTime
     }
 
     /**
      * Get names of Allah for the specified language.
      */
     override suspend fun getNamesOfAllah(language: Language): List<NameOfAllah> {
-        return withContext(Dispatchers.IO) {
-            muslimDb.muslimDataDao.getNames(language.value)
-        }
+        return muslimDb.muslimDataDao.getNames(language.value)
     }
 
     /**
      * Get azkar categories for the specified language.
      */
     override suspend fun getAzkarCategories(language: Language): List<AzkarCategory> {
-        return withContext(Dispatchers.IO) {
-            muslimDb.muslimDataDao.getAzkarCategories(language.value)
-        }
+        return muslimDb.muslimDataDao.getAzkarCategories(language.value)
     }
 
     /**
@@ -94,9 +87,7 @@ class MuslimRepository(context: Context) : Repository {
     override suspend fun getAzkarChapters(
         language: Language, categoryId: Int
     ): List<AzkarChapter>? {
-        return withContext(Dispatchers.IO) {
-            muslimDb.muslimDataDao.getAzkarChapters(language.value, categoryId)
-        }
+        return muslimDb.muslimDataDao.getAzkarChapters(language.value, categoryId)
     }
 
     /**
@@ -105,17 +96,13 @@ class MuslimRepository(context: Context) : Repository {
     override suspend fun getAzkarChapters(
         language: Language, chapterIds: Array<Int>
     ): List<AzkarChapter>? {
-        return withContext(Dispatchers.IO) {
-            muslimDb.muslimDataDao.getAzkarChapters(language.value, chapterIds)
-        }
+        return muslimDb.muslimDataDao.getAzkarChapters(language.value, chapterIds)
     }
 
     /**
      * Get azkar items for the specified azkar chapter id and language.
      */
     override suspend fun getAzkarItems(chapterId: Int, language: Language): List<AzkarItem>? {
-        return withContext(Dispatchers.IO) {
-            muslimDb.muslimDataDao.getAzkarItems(chapterId, language.value)
-        }
+        return muslimDb.muslimDataDao.getAzkarItems(chapterId, language.value)
     }
 }
