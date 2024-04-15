@@ -45,7 +45,7 @@ internal interface MuslimDataDao {
                 "INNER JOIN country ON country._id = location.country_id " +
                 "WHERE location.name like :locationName"
     )
-    fun searchLocation(locationName: String): List<Location>?
+    suspend fun searchLocation(locationName: String): List<Location>?
 
     /**
      * Get location information based on the provided country code and location name in the database.
@@ -61,7 +61,7 @@ internal interface MuslimDataDao {
                 "WHERE country.code= :countryCode  COLLATE NOCASE " +
                 "AND location.name= :locationName COLLATE NOCASE"
     )
-    fun geocoder(countryCode: String, locationName: String): Location?
+    suspend fun geocoder(countryCode: String, locationName: String): Location?
 
     /**
      * Get location information based on the provided latitude and longitude in the database.
@@ -77,13 +77,13 @@ internal interface MuslimDataDao {
                 "ORDER BY abs(latitude - :latitude) + abs(longitude - :longitude) " +
                 "LIMIT 1"
     )
-    fun reverseGeocoder(latitude: Double, longitude: Double): Location?
+    suspend fun reverseGeocoder(latitude: Double, longitude: Double): Location?
 
     /**
      * Get prayer times for the specified user's location and date in the database.
      */
     @Query("SELECT * FROM prayer_time WHERE location_id = :locationId AND date = :date")
-    fun getPrayerTimes(locationId: Int, date: String): FixedPrayerTime
+    suspend fun getPrayerTimes(locationId: Int, date: String): FixedPrayerTime
 
     /**
      * Get names of allah from the database for the specified language.
@@ -95,7 +95,7 @@ internal interface MuslimDataDao {
                 "INNER JOIN name_translation AS transl ON transl.name_id = name._id " +
                 "AND transl.language = :language"
     )
-    fun getNames(language: String): List<NameOfAllah>
+    suspend fun getNames(language: String): List<NameOfAllah>
 
     /**
      * Get azkar categories from the database for the specified language.
@@ -107,7 +107,7 @@ internal interface MuslimDataDao {
                 "INNER JOIN azkar_category_translation AS transl ON transl.category_id = category._id " +
                 "WHERE language = :language"
     )
-    fun getAzkarCategories(language: String): List<AzkarCategory>
+    suspend fun getAzkarCategories(language: String): List<AzkarCategory>
 
     /**
      * Get azkar chapters from the database for the specified language and category id.
@@ -120,7 +120,7 @@ internal interface MuslimDataDao {
                 "INNER JOIN azkar_chapter_translation AS transl ON transl.chapter_id = chapter._id " +
                 "WHERE language = :language AND (:categoryId = -1 OR category_id = :categoryId)"
     )
-    fun getAzkarChapters(language: String, categoryId: Int): List<AzkarChapter>?
+    suspend fun getAzkarChapters(language: String, categoryId: Int): List<AzkarChapter>?
 
     /**
      * Get azkar chapters from the database for the specified language and chapter ids.
@@ -133,7 +133,7 @@ internal interface MuslimDataDao {
                 "INNER JOIN azkar_chapter_translation AS transl ON transl.chapter_id = chapter._id " +
                 "WHERE language = :language AND chapter._id IN (:chapterIds)"
     )
-    fun getAzkarChapters(language: String, chapterIds: Array<Int>): List<AzkarChapter>?
+    suspend fun getAzkarChapters(language: String, chapterIds: Array<Int>): List<AzkarChapter>?
 
     /**
      * Get azkar items from the database for the specified chapter id and language.
@@ -149,7 +149,7 @@ internal interface MuslimDataDao {
                 "ref_transl.language = transl.language " +
                 "WHERE chapterId = :chapterId AND transl.language = :language"
     )
-    fun getAzkarItems(chapterId: Int, language: String): List<AzkarItem>?
+    suspend fun getAzkarItems(chapterId: Int, language: String): List<AzkarItem>?
 
     @Transaction
     @Query(
@@ -183,7 +183,7 @@ internal interface MuslimDataDao {
         AzkarReferenceTable::class,
         AzkarReferenceTranslationTable::class
     ],
-    version = 16,
+    version = 17,
     exportSchema = false
 )
 abstract class MuslimDataDatabase : RoomDatabase() {
