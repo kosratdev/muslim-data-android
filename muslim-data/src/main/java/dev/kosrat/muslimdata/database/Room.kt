@@ -20,6 +20,10 @@ import dev.kosrat.muslimdata.database.tables.azkars.AzkarItemTranslationTable
 import dev.kosrat.muslimdata.database.tables.azkars.AzkarReferenceTable
 import dev.kosrat.muslimdata.database.tables.azkars.AzkarReferenceTranslationTable
 import dev.kosrat.muslimdata.database.tables.prayertimes.FixedPrayerTime
+import dev.kosrat.muslimdata.extensions.PrefKeys
+import dev.kosrat.muslimdata.extensions.get
+import dev.kosrat.muslimdata.extensions.put
+import dev.kosrat.muslimdata.extensions.sharedPreferences
 import dev.kosrat.muslimdata.models.AzkarCategory
 import dev.kosrat.muslimdata.models.AzkarChapter
 import dev.kosrat.muslimdata.models.AzkarItem
@@ -165,6 +169,11 @@ internal interface MuslimDataDao {
 }
 
 /**
+ * Version of the MuslimData database.
+ */
+private const val DB_VERSION = 18
+
+/**
  * Create Room database instance from asset (prepared database).
  */
 @Database(
@@ -183,7 +192,7 @@ internal interface MuslimDataDao {
         AzkarReferenceTable::class,
         AzkarReferenceTranslationTable::class
     ],
-    version = 18,
+    version = DB_VERSION,
     exportSchema = false
 )
 abstract class MuslimDataDatabase : RoomDatabase() {
@@ -198,19 +207,35 @@ abstract class MuslimDataDatabase : RoomDatabase() {
             synchronized(this) {
                 var instance = INSTANCE
                 if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext, MuslimDataDatabase::class.java,
-                        "muslim_db.db"
-                    )
-                        .createFromAsset("database/muslim_db_v2.0.1.db")
-                        .fallbackToDestructiveMigration()
-                        .build()
+                    val dbName = "muslim_db.db"
+                    val dbBuilder = Room.databaseBuilder(
+                        context.applicationContext,
+                        MuslimDataDatabase::class.java,
+                        dbName
+                    ).fallbackToDestructiveMigration()
+
+                    // Copy database if it doesn't exist or the app version changes
+                    val dbFile = context.getDatabasePath(dbName)
+                    if (!dbFile.exists() || isVersionChanged(context)) {
+                        dbBuilder.createFromAsset("database/muslim_db_v2.0.1.db")
+                    }
+
+                    instance = dbBuilder.build()
 
                     INSTANCE = instance
                 }
-
                 return instance
             }
+        }
+
+        private fun isVersionChanged(context: Context): Boolean {
+            // Implement logic to check if the database version has changed
+            val currentVersion = context.sharedPreferences.get(PrefKeys.DB_VERSION, 18)
+            if (currentVersion < DB_VERSION) {
+                context.sharedPreferences.put(PrefKeys.DB_VERSION, DB_VERSION)
+                return true
+            }
+            return false
         }
     }
 }
