@@ -10,7 +10,7 @@ android {
     compileSdk = 34
     defaultConfig {
         applicationId = "dev.kosrat.muslimdataexample"
-        minSdk = 19
+        minSdk = 21
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -42,9 +42,9 @@ dependencies {
 
     // Androidx
     implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.2")
 
     // Tests
     testImplementation("junit:junit:4.13.2")
