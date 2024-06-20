@@ -171,7 +171,7 @@ internal interface MuslimDataDao {
 /**
  * Version of the MuslimData database.
  */
-private const val DB_VERSION = 18
+private const val DB_VERSION = 19
 
 /**
  * Create Room database instance from asset (prepared database).
@@ -217,7 +217,7 @@ abstract class MuslimDataDatabase : RoomDatabase() {
                     // Copy database if it doesn't exist or the app version changes
                     val dbFile = context.getDatabasePath(dbName)
                     if (!dbFile.exists() || isVersionChanged(context)) {
-                        dbBuilder.createFromAsset("database/muslim_db_v2.0.1.db")
+                        dbBuilder.createFromAsset("database/muslim_db_v2.1.0.db")
                     }
 
                     instance = dbBuilder.build()
@@ -229,7 +229,8 @@ abstract class MuslimDataDatabase : RoomDatabase() {
         }
 
         private fun isVersionChanged(context: Context): Boolean {
-            // Implement logic to check if the database version has changed
+            // Implement logic to check if the database version has changed. The default value
+            // should be 18 as we implemented this feature in the room database version 18.
             val currentVersion = context.sharedPreferences.get(PrefKeys.DB_VERSION, 18)
             if (currentVersion < DB_VERSION) {
                 context.sharedPreferences.put(PrefKeys.DB_VERSION, DB_VERSION)
