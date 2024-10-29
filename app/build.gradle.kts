@@ -7,11 +7,11 @@ plugins {
 android {
     namespace = "dev.kosrat.muslimdataexample"
 
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "dev.kosrat.muslimdataexample"
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

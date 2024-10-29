@@ -10,7 +10,7 @@ apply(from = "${rootProject.projectDir}/scripts/publish-module.gradle")
 android {
     namespace = "dev.kosrat.muslimdata"
 
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         minSdk = 21
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -40,7 +40,7 @@ android {
         }
     }
 
-    testOptions.targetSdk = 34
+    testOptions.targetSdk = 35
 }
 
 
