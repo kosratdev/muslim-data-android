@@ -77,6 +77,7 @@ enum class Language(val value: String) {
     EN("en"),
     AR("ar"),
     CKB("ckb"),
+    CKB_BADINI("ckb_BADINI"),
     FA("fa"),
     RU("ru")
 }

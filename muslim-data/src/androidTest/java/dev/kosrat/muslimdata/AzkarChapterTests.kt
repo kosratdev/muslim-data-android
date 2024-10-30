@@ -42,6 +42,11 @@ class AzkarChapterTests {
     }
 
     @Test
+    fun azkarChapters_ckbBadiniChapters_isCorrect() {
+        testAzkarChapters(Language.CKB_BADINI)
+    }
+
+    @Test
     fun azkarChapters_faChapters_isCorrect() {
         testAzkarChapters(Language.FA)
     }
@@ -111,6 +116,21 @@ class AzkarChapterTests {
         testAzkarChapters(Language.CKB, 9, 20)
         testAzkarChapters(Language.CKB, 10, 10)
         testAzkarChapters(Language.CKB, 11, 13)
+    }
+
+    @Test
+    fun azkarChaptersByCategory_ckbBadiniChapters_isCorrect() {
+        testAzkarChapters(Language.CKB_BADINI, 1, 7)
+        testAzkarChapters(Language.CKB_BADINI, 2, 14)
+        testAzkarChapters(Language.CKB_BADINI, 3, 7)
+        testAzkarChapters(Language.CKB_BADINI, 4, 15)
+        testAzkarChapters(Language.CKB_BADINI, 5, 11)
+        testAzkarChapters(Language.CKB_BADINI, 6, 19)
+        testAzkarChapters(Language.CKB_BADINI, 7, 9)
+        testAzkarChapters(Language.CKB_BADINI, 8, 8)
+        testAzkarChapters(Language.CKB_BADINI, 9, 20)
+        testAzkarChapters(Language.CKB_BADINI, 10, 10)
+        testAzkarChapters(Language.CKB_BADINI, 11, 13)
     }
 
     @Test
