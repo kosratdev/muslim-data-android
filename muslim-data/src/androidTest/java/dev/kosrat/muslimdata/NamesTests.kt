@@ -8,7 +8,9 @@ import dev.kosrat.muslimdata.models.NameOfAllah
 import dev.kosrat.muslimdata.repository.MuslimRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,6 +42,11 @@ class NamesTests {
     @Test
     fun namesOfAllah_ckbNames_isCorrect() {
         testNames(Language.CKB)
+    }
+
+    @Test
+    fun namesOfAllah_ckbBadiniNames_isCorrect() {
+        testNames(Language.CKB_BADINI)
     }
 
     @Test

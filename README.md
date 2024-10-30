@@ -8,7 +8,7 @@ Most cities around the world find their prayer times by using some calculations 
 
 ## Installation
 ```
-implementation 'dev.kosrat:muslimdata:2.3.0'
+implementation 'dev.kosrat:muslimdata:2.4.0'
 ```
 
 ## Migration Guide
@@ -88,7 +88,7 @@ lifecycleScope.launch {
 
 ### Azkars (Hisnul Muslim)
 
-Get all azkars from (**Hisnul Muslim** book) that is categorized by (`Category`, `Chapter`, and `Item`) and also the azkars are available for these languages (`en`, `ar`, `ckb`, `fa`, and `ru`)
+Get all azkars from (**Hisnul Muslim** book) that is categorized by (`Category`, `Chapter`, and `Item`) and also the azkars are available for these languages (`en`, `ar`, `ckb`, `ckb_BADINI`, `fa`, and `ru`)
 
 #### Azkar Category
 
@@ -137,7 +137,7 @@ lifecycleScope.launch {
 
 ### Names of Allah
 
-Get 99 Names of Allah with it's translation and now it is available for these languages (`en`, `ar`, `ckb`, `fa`, and `ru`)
+Get 99 Names of Allah with it's translation and now it is available for these languages (`en`, `ar`, `ckb`, `ckb_BADINI`, `fa`, and `ru`)
 
 ```kotlin
 lifecycleScope.launch {

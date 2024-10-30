@@ -42,6 +42,11 @@ class AzkarCategoryTests {
     }
 
     @Test
+    fun azkarCategories_ckbBadiniCategories_isCorrect() {
+        testAzkarCategories(Language.CKB_BADINI)
+    }
+
+    @Test
     fun azkarCategories_faCategories_isCorrect() {
         testAzkarCategories(Language.FA)
     }
