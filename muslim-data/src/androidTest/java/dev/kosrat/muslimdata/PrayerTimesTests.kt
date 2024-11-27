@@ -34,7 +34,7 @@ class PrayerTimesTests {
         context = InstrumentationRegistry.getInstrumentation().targetContext
         muslimDataDatabase = Room.databaseBuilder(
             context.applicationContext, MuslimDataDatabase::class.java, "muslim_db.db"
-        ).createFromAsset("database/muslim_db_v2.3.0.db").fallbackToDestructiveMigration()
+        ).createFromAsset("database/muslim_db_v2.3.1.db").fallbackToDestructiveMigration()
             .allowMainThreadQueries().build()
 
         muslimDataDao = muslimDataDatabase.muslimDataDao
