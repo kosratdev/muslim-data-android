@@ -171,7 +171,7 @@ internal interface MuslimDataDao {
 /**
  * Version of the MuslimData database.
  */
-private const val DB_VERSION = 22
+private const val DB_VERSION = 23
 
 /**
  * Create Room database instance from asset (prepared database).
@@ -217,7 +217,7 @@ abstract class MuslimDataDatabase : RoomDatabase() {
                     // Copy database if it doesn't exist or the app version changes
                     val dbFile = context.getDatabasePath(dbName)
                     if (!dbFile.exists() || isVersionChanged(context)) {
-                        dbBuilder.createFromAsset("database/muslim_db_v2.3.1.db")
+                        dbBuilder.createFromAsset("database/muslim_db_v2.3.2.db")
                     }
 
                     instance = dbBuilder.build()
