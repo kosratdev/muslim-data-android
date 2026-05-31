@@ -25,7 +25,7 @@ jobs:
       - name: Run Tests with Gradle
         run: ./gradlew test
 
-  andorid_tests:
+  android_tests:
     runs-on: macOS-13
 
     steps:

@@ -60,6 +60,6 @@ class AzkarCategoryTests {
         val categories = MuslimRepository(context).getAzkarCategories(language)
         Assert.assertNotNull(categories)
         Assert.assertEquals(categories.size, 11)
-        Assert.assertNotNull(categories[(0..10).random()].categoryName)
+        Assert.assertTrue(categories.all { it.categoryName.isNotBlank() })
     }
 }
